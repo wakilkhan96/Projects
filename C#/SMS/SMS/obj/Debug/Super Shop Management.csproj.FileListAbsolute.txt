@@ -1,0 +1,18 @@
+c:\users\wakil\documents\visual studio 2015\Projects\Super Shop Management\Super Shop Management\bin\Debug\Super Shop Management.exe.config
+c:\users\wakil\documents\visual studio 2015\Projects\Super Shop Management\Super Shop Management\bin\Debug\Super Shop Management.exe
+c:\users\wakil\documents\visual studio 2015\Projects\Super Shop Management\Super Shop Management\bin\Debug\Super Shop Management.pdb
+c:\users\wakil\documents\visual studio 2015\Projects\Super Shop Management\Super Shop Management\obj\Debug\Super Shop Management.csprojResolveAssemblyReference.cache
+c:\users\wakil\documents\visual studio 2015\Projects\Super Shop Management\Super Shop Management\obj\Debug\Super_Shop_Management.Properties.Resources.resources
+c:\users\wakil\documents\visual studio 2015\Projects\Super Shop Management\Super Shop Management\obj\Debug\Super Shop Management.csproj.GenerateResource.Cache
+c:\users\wakil\documents\visual studio 2015\Projects\Super Shop Management\Super Shop Management\obj\Debug\Super Shop Management.exe
+c:\users\wakil\documents\visual studio 2015\Projects\Super Shop Management\Super Shop Management\obj\Debug\Super Shop Management.pdb
+c:\users\wakil\documents\visual studio 2015\Projects\Super Shop Management\Super Shop Management\obj\Debug\Super_Shop_Management.loginForm.resources
+c:\users\wakil\documents\visual studio 2015\Projects\Super Shop Management\Super Shop Management\obj\Debug\Super_Shop_Management.mainForm.resources
+C:\Users\Wakil\Documents\Visual Studio 2015\Projects\Super Shop Management\Super Shop Management\obj\Debug\Super_Shop_Management.signUpForm.resources
+C:\Users\Wakil\Documents\Visual Studio 2015\Projects\Super Shop Management\Super Shop Management\obj\Debug\Super_Shop_Management.menuForm.resources
+C:\Users\Wakil\Documents\Visual Studio 2015\Projects\Super Shop Management\Super Shop Management\obj\Debug\Super_Shop_Management.dgViewForm.resources
+C:\Users\Wakil\Documents\Visual Studio 2015\Projects\Super Shop Management\Super Shop Management\obj\Debug\Super_Shop_Management.productSellForm.resources
+C:\Users\Wakil\Documents\Visual Studio 2015\Projects\Super Shop Management\Super Shop Management\bin\Debug\menuForm.resx
+C:\Users\Wakil\Documents\Visual Studio 2015\Projects\Super Shop Management\Super Shop Management\bin\Debug\menuForm.cs
+C:\Users\Wakil\Documents\Visual Studio 2015\Projects\Super Shop Management\Super Shop Management\bin\Debug\menuForm.Designer.cs
+C:\Users\Wakil\Documents\Visual Studio 2015\Projects\Super Shop Management\Super Shop Management\obj\Debug\Super_Shop_Management.sellReportForm.resources
