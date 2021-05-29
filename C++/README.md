@@ -1,1 +1,1 @@
-# Projects
+# Hands-on Projects
