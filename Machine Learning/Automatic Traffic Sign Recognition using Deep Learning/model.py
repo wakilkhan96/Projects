@@ -78,68 +78,72 @@ y_train = to_categorical(y_train, 43)
 y_test = to_categorical(y_test, 43)
 
 print(y_test)
-# #Building the model
-# model = Sequential()
-# model.add(Conv2D(filters=32, kernel_size=(5,5), activation='relu', input_shape=X_train.shape[1:]))
-# model.add(Conv2D(filters=32, kernel_size=(5,5), activation='relu'))
-# model.add(MaxPool2D(pool_size=(2, 2)))
-# model.add(Dropout(rate=0.25))
-# model.add(Conv2D(filters=64, kernel_size=(3, 3), activation='relu'))
-# model.add(Conv2D(filters=64, kernel_size=(3, 3), activation='relu'))
-# model.add(MaxPool2D(pool_size=(2, 2)))
-# model.add(Dropout(rate=0.25))
-# model.add(Flatten())
-# model.add(Dense(256, activation='relu'))
-# model.add(Dropout(rate=0.5))
-# model.add(Dense(43, activation='softmax'))
 
-# #Compilation of the model
-# model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
-# epochs = 15
-# history = model.fit(X_train, y_train, batch_size=32, epochs=epochs, validation_data=(X_test, y_test))
-# model.save("my_model.h5")
 
-# #plotting graphs for accuracy 
-# plt.figure(0)
-# plt.plot(history.history['accuracy'], label='training accuracy')
-# plt.plot(history.history['val_accuracy'], label='val accuracy')
-# plt.title('Accuracy')
-# plt.xlabel('epochs')
-# plt.ylabel('accuracy')
-# plt.legend()
-# plt.show()
 
-# plt.figure(1)
-# plt.plot(history.history['loss'], label='training loss')
-# plt.plot(history.history['val_loss'], label='val loss')
-# plt.title('Loss')
-# plt.xlabel('epochs')
-# plt.ylabel('loss')
-# plt.legend()
-# plt.show()
+#Building the model
+model = Sequential()
+model.add(Conv2D(filters=32, kernel_size=(5,5), activation='relu', input_shape=X_train.shape[1:]))
+model.add(Conv2D(filters=32, kernel_size=(5,5), activation='relu'))
+model.add(MaxPool2D(pool_size=(2, 2)))
+model.add(Dropout(rate=0.25))
+model.add(Conv2D(filters=64, kernel_size=(3, 3), activation='relu'))
+model.add(Conv2D(filters=64, kernel_size=(3, 3), activation='relu'))
+model.add(MaxPool2D(pool_size=(2, 2)))
+model.add(Dropout(rate=0.25))
+model.add(Flatten())
+model.add(Dense(256, activation='relu'))
+model.add(Dropout(rate=0.5))
+model.add(Dense(43, activation='softmax'))
 
-# #testing accuracy on test dataset
-# from sklearn.metrics import accuracy_score
+#Compilation of the model
+model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
-# y_test = pd.read_csv('Test.csv')
+epochs = 15
+history = model.fit(X_train, y_train, batch_size=32, epochs=epochs, validation_data=(X_test, y_test))
+model.save("my_model.h5")
 
-# labels = y_test["ClassId"].values
-# imgs = y_test["Path"].values
+#plotting graphs for accuracy 
+plt.figure(0)
+plt.plot(history.history['accuracy'], label='training accuracy')
+plt.plot(history.history['val_accuracy'], label='val accuracy')
+plt.title('Accuracy')
+plt.xlabel('epochs')
+plt.ylabel('accuracy')
+plt.legend()
+plt.show()
 
-# data=[]
+plt.figure(1)
+plt.plot(history.history['loss'], label='training loss')
+plt.plot(history.history['val_loss'], label='val loss')
+plt.title('Loss')
+plt.xlabel('epochs')
+plt.ylabel('loss')
+plt.legend()
+plt.show()
 
-# for img in imgs:
-#     image = Image.open(img)
-#     image = image.resize((30,30))
-#     data.append(np.array(image))
+#testing accuracy on test dataset
+from sklearn.metrics import accuracy_score
 
-# X_test=np.array(data)
+y_test = pd.read_csv('Test.csv')
 
-# pred = model.predict_classes(X_test)
+labels = y_test["ClassId"].values
+imgs = y_test["Path"].values
 
-# #Accuracy with the test data
-# from sklearn.metrics import accuracy_score
-# print(accuracy_score(labels, pred))
+data=[]
+
+for img in imgs:
+    image = Image.open(img)
+    image = image.resize((30,30))
+    data.append(np.array(image))
+
+X_test=np.array(data)
+
+pred = model.predict_classes(X_test)
+
+#Accuracy with the test data
+from sklearn.metrics import accuracy_score
+print(accuracy_score(labels, pred))
 
 # model.save("traffic_classifier.h5")
