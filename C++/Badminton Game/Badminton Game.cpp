@@ -146,7 +146,7 @@ void badminton::moveComputerPosition()
     int random = -1;
     while(random<=1 || random>=col-1)
     {
-        random = rand()*int(log2(rand()));
+        random = sqrt(rand())*(rand()*11);
         random = random%col;
     }
     computerCurrentPosition = random;
