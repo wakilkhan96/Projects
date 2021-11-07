@@ -169,7 +169,7 @@ void badminton::movePlayerPosition()
 
 void badminton::detectGameOver()
 {
-    if(toDown_isActive && featherCurrentPositionX==row-2)
+    if(toDown_isActive && featherCurrentPositionX==row-1)
     {
         gameOver = true;
     }
@@ -193,7 +193,11 @@ void badminton::showGrid()
         for(int j=1; j<col; j++)
         {
             setcursor(0,0);
+
+            //if(i==1 || i==row-1) grid[i][j]='.';
+            //else grid[i][j]=' ';
             grid[i][j]=' ';
+
             if(i==1 )
             {
                 if(j==computerCurrentPosition-1) grid[i][j]='C';
@@ -222,7 +226,7 @@ void start()
     //for(int x=0;x<6;x++) printf(" ");
     printf(" ");
     badminton ob;
-    ob.delay(1000);
+    ob.delay(500);
 
     string ss = " Badminton Game ";
     for(int x=0; ss[x]!='\0'; x++)
@@ -230,7 +234,7 @@ void start()
         printf("%c",ss[x]);
         ob.delay(10);
     }
-    ob.delay(2000);
+    ob.delay(1500);
     system ("CLS");
 }
 
@@ -314,7 +318,6 @@ void play_game()
     }
 
     system ("CLS");
-    playObj.moveFeather();
     playObj.showGrid();
     playObj.showGameOver();
 
