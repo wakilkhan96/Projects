@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:ui_build/screens/api_data_viewing_screens/api_data_viewing_screen1.dart';
 import 'package:ui_build/screens/forms/form1.dart';
 import 'package:ui_build/screens/login_screens/login_screen1.dart';
 
@@ -96,6 +97,19 @@ class MenuScreen extends StatelessWidget {
                   },
                 ),
                 //Spacer(flex: 1),
+                SizedBox(height: 10),
+                _TextButton2(
+                  buttonText: 'API Data',
+                  action: () {
+                    Navigator.push(context,
+                      MaterialPageRoute(builder: (context)=> const APIDataViewingScreen1(),
+                        //MaterialPageRoute(builder: (context)=> const LoginScreen2()
+                        //MaterialPageRoute(builder: (context)=> const MyCustomForm()
+                        //MaterialPageRoute(builder: (context)=> const MenuScreen(),
+                      ),
+                    );
+                  },
+                ),
               ],
             ),
           ),
