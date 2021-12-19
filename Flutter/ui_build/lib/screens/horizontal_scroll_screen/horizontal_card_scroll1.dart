@@ -153,13 +153,13 @@ class _HorizontalCardScrollScreen1State extends State<HorizontalCardScrollScreen
                     ), //in between spacer
 
                     Container(
-                      height: 140,
+                      height: 150,
                       child: ListView.separated(
                         // padding: EdgeInsets.all(5),
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) => buildCard(items[index]),
-                          separatorBuilder: (context, _) => SizedBox(width: 5,),
-                          itemCount: items.length
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) => buildCard(items[index]),
+                        separatorBuilder: (context, _) => SizedBox(width: 15,),
+                        itemCount: items.length
                       ),
                     ),
 
@@ -182,25 +182,34 @@ class _HorizontalCardScrollScreen1State extends State<HorizontalCardScrollScreen
 Widget buildCard(CardItem item) {
 
   return Container(
-    width: 120,
+    width: 130,
+    decoration: BoxDecoration(
+      // border: Border.all(
+      //   //color: Colors.grey.withOpacity(0.5),
+      //   color: Colors.white,
+      //   width: 0.00,
+      // ),
+      borderRadius: BorderRadius.circular(10.0),
+      color: Color.fromRGBO(238, 244, 255, 1.0),
+    ),
     child: Column(
       children: [
         Expanded(
-          child: AspectRatio(
-            aspectRatio: 4 / 3 ,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20.0),
-              child: Image.network(
-                  item.urlImage
+            child: AspectRatio(
+              aspectRatio: 4 / 3 ,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20.0),
+                child: Image.network(
+                    item.urlImage
+                ),
               ),
             ),
-          ),
         ),
         Text(
           item.title,
           style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
           ),
         ),
         Text(
