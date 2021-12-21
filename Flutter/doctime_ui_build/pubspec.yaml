@@ -63,7 +63,10 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/images/logo_doctime.png
+    - assets/images/share_icon.png
+    - assets/images/physician_icon.png
     - assets/images/video_background.jpg
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

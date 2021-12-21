@@ -8,6 +8,12 @@ class CardItem {
   // final String subtitle;
   const CardItem({required this.icon, required this.title});
 }
+class IconCardItem {
+  dynamic imageData;
+  final String title;
+  // final String subtitle;
+  IconCardItem({required this.imageData, required this.title});
+}
 class ImageCardItem {
   final String urlImage;
   final String title;
@@ -15,18 +21,19 @@ class ImageCardItem {
   const ImageCardItem({required this.urlImage, required this.title, required this.subtitle});
 }
 
-class UIScreen3 extends StatefulWidget {
-  const UIScreen3({Key? key}) : super(key: key);
+class MyScreen1 extends StatefulWidget {
+  const MyScreen1({Key? key}) : super(key: key);
 
   @override
-  _UIScreen3State createState() => _UIScreen3State();
+  _MyScreen1State createState() => _MyScreen1State();
 }
 
-class _UIScreen3State extends State<UIScreen3> {
+class _MyScreen1State extends State<MyScreen1> {
   List<CardItem> items = [];
+  List<IconCardItem> iconItems = [];
   List<ImageCardItem> imageItems = [];
 
-  _UIScreen3State() {
+  _MyScreen1State() {
     // String url = "https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=725&q=80";
     String url = "https://images.unsplash.com/photo-1612531386530-97286d97c2d2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80";
 
@@ -35,6 +42,10 @@ class _UIScreen3State extends State<UIScreen3> {
       items.add(CardItem(icon: Icons.account_circle_outlined, title: "General Physician"));
     }
 
+    for (int i = 0; i < 5; i++) {
+      // items.add(CardItem(urlImage: url, title: "Text inside container.", subtitle: "10\$"));
+      iconItems.add(IconCardItem(imageData: AssetImage("assets/images/physician_icon.png"), title: "General Physician"));
+    }
 
     for (int j = 0;  j < 10; j++) {
       imageItems.add(ImageCardItem(urlImage: url, title: "NIKE Shoe", subtitle: "10\$"));
@@ -50,6 +61,30 @@ class _UIScreen3State extends State<UIScreen3> {
     return Stack(
       children: [
         Scaffold(
+          bottomNavigationBar: BottomNavigationBar(// new
+            onTap: (index) {
+              setState(() {
+                _currentIndex = index;
+              });
+            },
+            currentIndex: _currentIndex, // new
+            items: const [
+
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.mail),
+                label: 'Messages',
+              ),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.person),
+                  label: 'Profile'
+              ),
+
+            ],
+          ),
           body: SafeArea(
             child: SingleChildScrollView(
               child: Padding(
@@ -126,7 +161,7 @@ class _UIScreen3State extends State<UIScreen3> {
                               decoration: InputDecoration(
                                 border: InputBorder.none,
                                 hintText:
-                                    'Search by doctor\'s name/code & speciality',
+                                'Search by doctor\'s name/code & speciality',
                                 hintStyle: TextStyle(
                                   color: Colors.grey,
                                   fontSize: 15.0,
@@ -152,6 +187,7 @@ class _UIScreen3State extends State<UIScreen3> {
                         ],
                       ),
                     ),
+
                     const SizedBox(
                       height: 20,
                     ), //in between spacer
@@ -160,10 +196,25 @@ class _UIScreen3State extends State<UIScreen3> {
                       height: 170,
                       child: ListView.separated(
                         // padding: EdgeInsets.all(5),
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) => buildCard(items[index]),
-                        separatorBuilder: (context, _) => const SizedBox(width: 20,),
-                        itemCount: items.length
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) => buildCard(items[index]),
+                          separatorBuilder: (context, _) => const SizedBox(width: 15,),
+                          itemCount: items.length
+                      ),
+                    ),
+
+                    const SizedBox(
+                      height: 20,
+                    ), //in between spacer
+
+                    Container(
+                      height: 170,
+                      child: ListView.separated(
+                        // padding: EdgeInsets.all(5),
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) => buildIconCard(iconItems[index]),
+                          separatorBuilder: (context, _) => const SizedBox(width: 15,),
+                          itemCount: iconItems.length
                       ),
                     ),
 
@@ -357,10 +408,10 @@ class _UIScreen3State extends State<UIScreen3> {
                               Text(
                                 "with family and friends",
                                 style: TextStyle(
-                                    fontFamily: 'RobotoMono',
-                                    fontSize: 23,
-                                    fontWeight: FontWeight.w300,
-                                    color: Colors.black,
+                                  fontFamily: 'RobotoMono',
+                                  fontSize: 23,
+                                  fontWeight: FontWeight.w300,
+                                  color: Colors.black,
                                 ),
                               ),
                             ],
@@ -384,10 +435,15 @@ class _UIScreen3State extends State<UIScreen3> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: const [
                                       // Icon(Icons.add, size: 16, color: Colors.white,),
-                                      Icon(IconData(0xe593, fontFamily: 'MaterialIcons'), size: 20, color: Colors.white,),
-                                      SizedBox(width: 10,),
+                                      ImageIcon(
+                                        AssetImage("assets/images/share_icon.png"),
+                                        // color: Color(0xFF3A5A98),
+                                        size: 16,
+                                        color: Colors.white,
+                                      ),
+                                      Icon(IconData(0xe593, fontFamily: 'MaterialIcons'), size: 16, color: Colors.white,),
                                       Text(
-                                        "SHARE WITH YOUR FRIENDS",
+                                        " SHARE WITH YOUR FRIENDS",
                                         style: TextStyle(
                                           fontFamily: 'RobotoMono',
                                           fontSize: 16,
@@ -459,9 +515,9 @@ Widget buildCard(CardItem item) {
             item.title,
             textAlign: TextAlign.center,
             style: const TextStyle(
-                fontFamily: 'RobotoMono',
-                fontSize: 18,
-                // fontWeight: FontWeight.bold,
+              fontFamily: 'RobotoMono',
+              fontSize: 18,
+              // fontWeight: FontWeight.bold,
             ),
           ),
 
@@ -471,6 +527,70 @@ Widget buildCard(CardItem item) {
     ),
   );
 }
+
+
+Widget buildIconCard(IconCardItem item) {
+
+  return Padding(
+    // padding: EdgeInsets.all(10),
+    padding: EdgeInsets.only(top: 5, bottom: 5),
+    child: Container(
+      width: 130,
+      decoration: BoxDecoration(
+        // border: Border.all(
+        //   //color: Colors.grey.withOpacity(0.5),
+        //   color: Colors.white,
+        //   width: 0.00,
+        // ),
+        boxShadow: const [
+          BoxShadow(
+            color: Color.fromRGBO(0, 0, 0, 0.07),
+            offset: Offset(0, 0),
+            blurRadius: 7,
+            spreadRadius: 2,
+          )
+        ],
+        borderRadius: BorderRadius.circular(10.0),
+        color: const Color.fromRGBO(238, 244, 255, 1.0),
+      ),
+      child: Column(
+        children: [
+          const Expanded(child: SizedBox(width: 1)),
+          /* Icon setting way - 1*  *[single color]* */
+          // ImageIcon(
+          //   item.imageData,
+          //   color: Colors.blue,
+          //   size: 50,
+          // ),
+
+          /* Icon setting way - 2*/
+          Container(
+            height: 62,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: item.imageData
+              ),
+            ),
+          ),
+
+          SizedBox(height: 10,),
+          Text(
+            item.title,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontFamily: 'RobotoMono',
+              fontSize: 18,
+              // fontWeight: FontWeight.bold,
+            ),
+          ),
+
+          const Expanded(child: SizedBox(width: 1)),
+        ],
+      ),
+    ),
+  );
+}
+
 
 Widget buildImageCard(ImageCardItem item) {
 

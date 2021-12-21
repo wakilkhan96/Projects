@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:doctime_ui_build/screens/ui_screens/screen2.dart';
 import 'package:doctime_ui_build/screens/ui_screens/screen3.dart';
+import 'package:doctime_ui_build/screens/my_screens/my_screen1.dart';
 import 'package:doctime_ui_build/screens/demo_screens/demo1.dart';
 
 
@@ -16,76 +17,93 @@ class MenuScreen1 extends StatelessWidget {
       children: [
         Scaffold(
           body: SafeArea(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
 
-                SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Select any item",
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline5!
-                          .copyWith(fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-
-                SizedBox(height: 30),
-                _TextButton2(
-                  buttonText: 'Screen 1',
-                  action: () {
-                    // Navigator.push(context,
-                    //   MaterialPageRoute(builder: (context)=> const UIScreen1(),
-                    //   ),
-                    // );
-                  },
-                ),
-                SizedBox(height: 10),
-                _TextButton2(
-                  buttonText: 'Screen 2',
-                  action: () {
-                    Navigator.push(context,
-                      MaterialPageRoute(builder: (context)=> const UIScreen2(),
-
+                  SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Select any item",
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline5!
+                            .copyWith(fontWeight: FontWeight.bold),
                       ),
-                    );
-                  },
-                ),
-                //Spacer(flex: 1),
-                SizedBox(height: 10),
-                _TextButton2(
-                  buttonText: 'Screen 3',
-                  action: () {
-                    Navigator.push(context,
-                      MaterialPageRoute(builder: (context)=> const UIScreen3(),
+                    ],
+                  ),
 
-                      ),
-                    );
-                  },
-                ),
-                SizedBox(height: 10),
-                SizedBox(height: 10),
-                SizedBox(height: 10),
-                SizedBox(height: 10),
-                SizedBox(height: 10),
-                SizedBox(height: 10),
-                _TextButton2(
-                  buttonText: 'Demo 1',
-                  action: () {
-                    Navigator.push(context,
-                      MaterialPageRoute(builder: (context)=> const DemoScreen1(),
+                  SizedBox(height: 30),
+                  _TextButton2(
+                    buttonText: 'Screen 1',
+                    action: () {
+                      // Navigator.push(context,
+                      //   MaterialPageRoute(builder: (context)=> const UIScreen1(),
+                      //   ),
+                      // );
+                    },
+                  ),
+                  SizedBox(height: 10),
+                  _TextButton2(
+                    buttonText: 'Screen 2',
+                    action: () {
+                      Navigator.push(context,
+                        MaterialPageRoute(builder: (context)=> const UIScreen2(),
 
-                      ),
-                    );
-                  },
-                ),
+                        ),
+                      );
+                    },
+                  ),
+                  //Spacer(flex: 1),
+                  SizedBox(height: 10),
+                  _TextButton2(
+                    buttonText: 'Screen 3',
+                    action: () {
+                      Navigator.push(context,
+                        MaterialPageRoute(builder: (context)=> const UIScreen3(),
 
-              ],
+                        ),
+                      );
+                    },
+                  ),
+                  SizedBox(height: 10),
+                  SizedBox(height: 10),
+                  SizedBox(height: 10),
+                  SizedBox(height: 10),
+                  SizedBox(height: 10),
+                  SizedBox(height: 10),
+                  _TextButton2(
+                    buttonText: 'Demo 1',
+                    action: () {
+                      Navigator.push(context,
+                        MaterialPageRoute(builder: (context)=> const DemoScreen1(),
+
+                        ),
+                      );
+                    },
+                  ),
+
+                  SizedBox(height: 1000),
+
+                  _TextButton2(
+                    buttonText: 'My Screen',
+                    action: () {
+                      Navigator.push(context,
+                        MaterialPageRoute(builder: (context)=> const MyScreen1(),
+
+                        ),
+                      );
+                    },
+                  ),
+
+                  SizedBox(height: 70),
+
+                ],
+              ),
             ),
           ),
         ),
