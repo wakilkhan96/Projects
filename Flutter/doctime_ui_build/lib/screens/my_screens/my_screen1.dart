@@ -259,6 +259,60 @@ class _MyScreen1State extends State<MyScreen1> {
 
                     const SizedBox(height: 30,),
 
+                    /* see how doctime works row way 1 best way*/
+                    Container(
+                      height: 100,
+                      decoration: BoxDecoration(
+                        image: const DecorationImage(
+                          image: AssetImage("assets/images/video_background.jpg"),
+                          fit: BoxFit.cover,
+                        ),
+                        border: Border.all(
+                          //color: Colors.grey.withOpacity(0.5),
+                          color: Colors.white,
+                          width: 0.00,
+                        ),
+                        borderRadius: BorderRadius.circular(10.0),
+                        color: const Color.fromRGBO(238, 244, 255, 1.0),
+                        // color: Colors.green,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(width: 20,),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Icon(Icons.adjust, color: Colors.black, ),
+                            ],
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Text(
+                                " See how DocTime works",
+                                textAlign: TextAlign.center,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontFamily: 'RobotoMono',
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(width: 20,),
+                        ],
+                      ),
+
+
+                    ),
+
+                    const SizedBox(height: 30,),
+
+
+                    /* see how doctime works row way 2 */
                     Container(
                       height: 100,
                       decoration: BoxDecoration(
@@ -364,26 +418,35 @@ class _MyScreen1State extends State<MyScreen1> {
                         children: [
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
+                            children: [
+                              Column(
+                                children: const [
+                                  Text(
+                                    "Share ",
+                                    style: TextStyle(
+                                      fontFamily: 'RobotoMono',
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                children: const [
+                                  Text(
+                                    "Doctime",
+                                    style: TextStyle(
+                                      fontFamily: 'RobotoMono',
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.lightBlue,
+                                    ),
+                                  ),
+                                ],
+                              ),
 
-                              Text(
-                                "Share ",
-                                style: TextStyle(
-                                  fontFamily: 'RobotoMono',
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              Text(
-                                "DocTime",
-                                style: TextStyle(
-                                    fontFamily: 'RobotoMono',
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.lightBlue
-                                ),
-                              ),
+
                             ],
                           ),
 
@@ -402,23 +465,122 @@ class _MyScreen1State extends State<MyScreen1> {
                           //   ],
                           // ),
 
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
-                              Text(
-                                "with family and friends",
-                                style: TextStyle(
-                                  fontFamily: 'RobotoMono',
-                                  fontSize: 23,
-                                  fontWeight: FontWeight.w300,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ],
+                          const Text(
+                            "with family and friends",
+                            style: TextStyle(
+                              fontFamily: 'RobotoMono',
+                              fontSize: 23,
+                              fontWeight: FontWeight.w300,
+                              color: Colors.black,
+                            ),
                           ),
 
                           const SizedBox(height: 12),
 
+                          // Container(
+                          //   height: 50,
+                          //   width: 320,
+                          //   decoration: BoxDecoration(
+                          //     borderRadius: BorderRadius.circular(30.0),
+                          //     color: Colors.blue,
+                          //     // color: Colors.transparent,
+                          //   ),
+                          //   child: Column(
+                          //     mainAxisAlignment: MainAxisAlignment.center,
+                          //     children: [
+                          //       Expanded(
+                          //         child: Row(
+                          //           mainAxisAlignment: MainAxisAlignment.center,
+                          //           children: const [
+                          //             // Icon(Icons.add, size: 16, color: Colors.white,),
+                          //             ImageIcon(
+                          //               AssetImage("assets/images/share_icon.png"),
+                          //               // color: Color(0xFF3A5A98),
+                          //               size: 16,
+                          //               color: Colors.white,
+                          //             ),
+                          //             Icon(IconData(0xe593, fontFamily: 'MaterialIcons'), size: 16, color: Colors.white,),
+                          //             Text(
+                          //               " SHARE WITH YOUR FRIENDS",
+                          //               style: TextStyle(
+                          //                 fontFamily: 'RobotoMono',
+                          //                 fontSize: 16,
+                          //                 fontWeight: FontWeight.bold,
+                          //                 color: Colors.white,
+                          //               ),
+                          //             ),
+                          //           ],
+                          //         ),
+                          //       )
+                          //     ],
+                          //   ),
+                          //
+                          // ),
+
+                          /* share with friends row way 1 best way*/
+                          Container(
+                            height: 50,
+                            width: 320,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30.0),
+                              color: Colors.blue,
+                              // color: Colors.transparent,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const SizedBox(width: 1,),
+
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: const [
+                                    ImageIcon(
+                                      AssetImage("assets/images/share_icon.png"),
+                                      // color: Color(0xFF3A5A98),
+                                      size: 16,
+                                      color: Colors.white,
+                                    ),
+                                  ],
+                                ),
+                                // Expanded(
+                                //   child: Column(
+                                //     children: const [
+                                //       Icon(IconData(0xe593, fontFamily: 'MaterialIcons'), size: 16, color: Colors.white,),
+                                //     ],
+                                //   ),
+                                // ),
+
+                                /* use expanded column to successfully render bigger text Expanded(child: Column(children: [],),),*/
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: const [
+                                    Text(
+                                      " SHARE WITH YOUR FRIENDS",
+                                      style: TextStyle(
+                                        fontFamily: 'RobotoMono',
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+
+                                const SizedBox(width: 1,),
+
+                              ],
+                            ),
+
+                          ),
+
+
+                          SizedBox(height: 20,),
+
+
+
+                          /* share with friends row way 2*/
                           Container(
                             height: 50,
                             width: 320,
@@ -435,15 +597,10 @@ class _MyScreen1State extends State<MyScreen1> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: const [
                                       // Icon(Icons.add, size: 16, color: Colors.white,),
-                                      ImageIcon(
-                                        AssetImage("assets/images/share_icon.png"),
-                                        // color: Color(0xFF3A5A98),
-                                        size: 16,
-                                        color: Colors.white,
-                                      ),
-                                      Icon(IconData(0xe593, fontFamily: 'MaterialIcons'), size: 16, color: Colors.white,),
+                                      Icon(IconData(0xe593, fontFamily: 'MaterialIcons'), size: 20, color: Colors.white,),
+                                      SizedBox(width: 10,),
                                       Text(
-                                        " SHARE WITH YOUR FRIENDS",
+                                        "SHARE WITH YOUR FRIENDS",
                                         style: TextStyle(
                                           fontFamily: 'RobotoMono',
                                           fontSize: 16,
