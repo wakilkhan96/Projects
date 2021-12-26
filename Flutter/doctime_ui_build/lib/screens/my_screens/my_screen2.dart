@@ -1,16 +1,17 @@
 import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-class UIScreen2 extends StatefulWidget {
-  const UIScreen2({Key? key}) : super(key: key);
+class MyScreen2 extends StatefulWidget {
+  const MyScreen2({Key? key}) : super(key: key);
 
   @override
-  _UIScreen2State createState() => _UIScreen2State();
+  _MyScreen2State createState() => _MyScreen2State();
 }
 
-class _UIScreen2State extends State<UIScreen2> {
+class _MyScreen2State extends State<MyScreen2> {
 
   int cou = 0;
   String url = "https://images.unsplash.com/photo-1612531386530-97286d97c2d2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80";
@@ -20,11 +21,39 @@ class _UIScreen2State extends State<UIScreen2> {
   double doctorRating = 4.8;
   int totalPatient = 0;
 
+  int patientDataViewContainerHeight = 0;
+  List<Widget> patientData = [];
 
-  _UIScreen2State() {
-
+  _MyScreen2State() {
+    patientData.clear();
   }
 
+
+
+  void addNewPatient() {
+    setState(() {
+      // // use any one of the two ways and comment the unused one
+      //way 1 - By using widget class
+      patientData.add(patientWidget("Mrs. Patient X", "Female", 40));
+      patientData.add((const SizedBox(height: 10,)));
+      //way 2 - By using custom class and returning widget class from that
+      patientData.add(
+        const Patient(patientName: "Mr. Patient Y", patientGender: "Male", patientAge: 41),
+      );
+      patientData.add((const SizedBox(height: 10,)));
+
+      //lets says each patient data container need 100 of height
+      // lets find out how many containers are pushed or added to the list
+      // and then multiply with the height: 100
+      // we wont let the height go above 290
+      int totalElements = patientData.length;
+      totalElements = totalElements~/2;
+      patientDataViewContainerHeight = min(totalElements*100, 100);
+
+      totalPatient = totalElements;
+      // print(patientDataViewContainerHeight);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,6 +98,8 @@ class _UIScreen2State extends State<UIScreen2> {
                                 child: ClipRRect(
                                   child: Image.network(
                                     url,
+                                    // width: 300,
+                                    // height: 300,
                                     fit: BoxFit.cover,
                                   ),
                                   borderRadius: BorderRadius.circular(40.0),
@@ -80,7 +111,7 @@ class _UIScreen2State extends State<UIScreen2> {
                           ],
 
                         ),
-                        
+
                         SizedBox(width: 15,),
 
                         Expanded(
@@ -167,7 +198,7 @@ class _UIScreen2State extends State<UIScreen2> {
 
                     const SizedBox(height: 30),
 
-
+                    /* divider way 1 best way (using container widget )*/
                     Row(
                       children: [
                         Expanded(
@@ -180,10 +211,24 @@ class _UIScreen2State extends State<UIScreen2> {
                       ],
                     ),
 
+                    /* divider way 2 (using divider widget)*/
+                    // Row(
+                    //   children: const [
+                    //     Expanded(
+                    //       child: Divider(
+                    //         // height: 10,
+                    //         thickness: 1,
+                    //         // color: Colors.black12,
+                    //         color: Colors.black,
+                    //       ),
+                    //     )
+                    //   ],
+                    // ),
 
+                    // Text("end"),
 
                     const SizedBox(height: 10,),
-
+                    /* select a patient row */
                     Row(
                       children: [
                         Column(
@@ -212,7 +257,7 @@ class _UIScreen2State extends State<UIScreen2> {
                             color: const Color.fromRGBO(238, 244, 255, 1.0),
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          
+
                           // color: const Color.fromRGBO(238, 244, 255, 1.0),
                           child: Row(
                             children: [
@@ -244,17 +289,75 @@ class _UIScreen2State extends State<UIScreen2> {
                     ),
 
                     const SizedBox(height: 10,),
-                    patientWidget("Mr Patient", "Male", 42),
+                    // PatientWidget("Mr Patient", "Male", 42),
 
 
+                    /* patient data viewing row way 1 - without using Listview*/
+                    Text("way 1 - without using Listview"),
+                    Container(
+                      // // static height
+                      // height: 200,
 
+                      // // dynamic height
+                      height: patientDataViewContainerHeight.toDouble(),
+                      decoration: const BoxDecoration(
+                        // color: Colors.yellow,
+                      ),
+                      child: SingleChildScrollView(
+                        child: Padding(
+                          padding: EdgeInsets.zero,
+                          child: Column(
+                            // // static children
+                            // children: [
+                            //   patientWidget("Mr Patient", "Male", 42),
+                            //   const SizedBox(height: 10,),
+                            //   patientWidget("Mr Patient", "Male", 42),
+                            //   const SizedBox(height: 10,),
+                            //   patientWidget("Mr Patient", "Male", 42),
+                            //   const SizedBox(height: 10,),
+                            // ],
+
+                            // // dynamic children
+                            children: patientData,
+
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 15,),
+
+                    /* patient data viewing row way 2 - using Listview*/
+                    Text("way 2 - using Listview"),
+                    Container(
+                      // // static height
+                      // height: 200,
+
+                      // // dynamic height
+                      height: patientDataViewContainerHeight.toDouble(),
+                      decoration: const BoxDecoration(
+                        // color: Colors.yellow,
+                      ),
+                      child: ListView.separated(
+                        // padding: EdgeInsets.all(5),
+                          scrollDirection: Axis.vertical,
+                          itemBuilder: (context, index) => patientData[index],
+                          separatorBuilder: (context, _) => const SizedBox(height: 10,),
+                          itemCount: patientData.length
+                      ),
+                    ),
                     const SizedBox(height: 15,),
 
 
 
 
                     // add new patient row
-                    addNewPatientWidget(),
+                    InkWell(
+                      onTap: () {
+                        addNewPatient();
+                      },
+                      child: addNewPatientWidget(),
+                    ),
 
                     const SizedBox(
                       height: 15,

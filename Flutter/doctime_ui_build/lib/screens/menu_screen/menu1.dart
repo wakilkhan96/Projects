@@ -1,9 +1,11 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 
+import 'package:doctime_ui_build/screens/ui_screens/screen1.dart';
 import 'package:doctime_ui_build/screens/ui_screens/screen2.dart';
 import 'package:doctime_ui_build/screens/ui_screens/screen3.dart';
 import 'package:doctime_ui_build/screens/my_screens/my_screen1.dart';
+import 'package:doctime_ui_build/screens/my_screens/my_screen2.dart';
 import 'package:doctime_ui_build/screens/demo_screens/demo1.dart';
 
 
@@ -41,10 +43,10 @@ class MenuScreen1 extends StatelessWidget {
                   _TextButton2(
                     buttonText: 'Screen 1',
                     action: () {
-                      // Navigator.push(context,
-                      //   MaterialPageRoute(builder: (context)=> const UIScreen1(),
-                      //   ),
-                      // );
+                      Navigator.push(context,
+                        MaterialPageRoute(builder: (context)=> const UIScreen1(),
+                        ),
+                      );
                     },
                   ),
                   SizedBox(height: 10),
@@ -90,10 +92,23 @@ class MenuScreen1 extends StatelessWidget {
                   SizedBox(height: 1000),
 
                   _TextButton2(
-                    buttonText: 'My Screen',
+                    buttonText: 'My Screen 1',
                     action: () {
                       Navigator.push(context,
                         MaterialPageRoute(builder: (context)=> const MyScreen1(),
+
+                        ),
+                      );
+                    },
+                  ),
+
+                  SizedBox(height: 30),
+
+                  _TextButton2(
+                    buttonText: 'My Screen 2',
+                    action: () {
+                      Navigator.push(context,
+                        MaterialPageRoute(builder: (context)=> const MyScreen2(),
 
                         ),
                       );
