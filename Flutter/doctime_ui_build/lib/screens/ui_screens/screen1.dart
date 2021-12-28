@@ -496,20 +496,10 @@ Widget doctorInfoCard(DoctorInfo item) {
                   ],
                 ),
               ),
-              Row(
-                children: [
-                  Expanded(
-                      child: Column(
-                        children: [
-                          Text("- - - - - - - - - - - - - - - - - - - - - - - - - - - - -"),
-                        ],
-                      ),
-                  ),
-                ],
+
+              Divider(
+                thickness: 2,
               ),
-              // Divider(
-              //   thickness: 2,
-              // ),
 
               Expanded(
                 flex: 2,
