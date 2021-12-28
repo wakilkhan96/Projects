@@ -13,152 +13,152 @@ class _DemoScreen1State extends State<DemoScreen1> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Scaffold(
-
-          body: SafeArea(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+            child: Column(
+              children: [
+                Text("Text/Element Overflow Handling\n", style: TextStyle(fontSize: 20),),
+                Row(
                   children: [
-                    const SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children:  const [
-                        Text(
-                          "Doctime Logo and other childs inside a \nrow",
-                          //textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: 'RobotoMono',
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-
                     Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.grey.withOpacity(0.5),
-                          width: 1.0,
-                        ),
-                        borderRadius: BorderRadius.circular(4.0),
-                        color: Colors.green,
-                      ),
-                      margin: EdgeInsets.all(12),
-
-                      child: Row(
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.only(left: 8),
-                            child: Icon(
-                              Icons.search,
-                              color: Colors.grey,
-                              size: 20,
+                      width: 80,
+                      height: 30,
+                      color: Colors.green,
+                    ),
+                    Expanded(
+                      child: Column(
+                        children: const [
+                          Text(
+                            "-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-",
+                            style: TextStyle(
+                              fontSize: 20,
                             ),
                           ),
-                          new Expanded(
-                            child: TextField(
-                              keyboardType: TextInputType.text,
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: "Search by Name",
-                                hintStyle: TextStyle(color: Colors.grey),
-                                contentPadding:
-                                EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                                isDense: true,
-                              ),
-                              style: TextStyle(
-                                fontSize: 14.0,
-                                color: Colors.black,
-                              ),
-                            ),
-                          )
                         ],
                       ),
                     ),
-                    const SizedBox(height: 30,), //in between spacer
-                    Row(
-                      //mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Response Status:",
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline5!
-                              .copyWith(fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10,),
-                    Row(
-                      //mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Text(
-                          "HTTP "+"status",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: 'RobotoMono',
-                            fontSize: 15,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 30,), //in between spacer
-                    Row(
-                      //mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Description:",
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline5!
-                              .copyWith(fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10,),
                     Container(
+                      width: 200,
+                      // height: 100,
+                      color: Colors.green,
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  children: const [
+                                    Text(
+                                      "0000000000000000000000000000000000",
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
 
-                      child: const Expanded(
-                        flex: 0,
-                        child: TextField(
-                          // controller: descriptionTextFieldController,
-                          maxLines: null, //wrap text
-                          autofocus: true,
-                          autocorrect: true,
-                          enabled: false,  // editing permission
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            height: 1.8, // line spacing height
-                            fontSize: 18,
-                            wordSpacing: 2.00,
+
+                            ],
                           ),
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            hintText: '',
-                            contentPadding: EdgeInsets.zero,
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 2,  // so this column will take more width
+                                child: Column(
+                                  children: const [
+                                    Text(
+                                      "1111111111111111111111111111111111111111",
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Column(
+                                  children: const [
+                                    Text(
+                                      "2222222222222222222222222222222222222222",
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                      ),
+                                    ),
+
+                                  ],
+                                ),
+                              ),
+
+                            ],
                           ),
-                          //showCursor: false,
-                          //cursorHeight: 18,
-                        ),
+
+                        ],
                       ),
+
                     ),
-                    const SizedBox(height: 30),
+
                   ],
                 ),
-              ),
+                Container(
+                  color: Colors.yellow,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Column(
+                          children: const [
+                            Text(
+                              "333333333333333333333333333333333333333333333333333",
+                              style: TextStyle(
+                                fontSize: 20,
+                              ),
+                            ),
+
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Column(
+                          children: const [
+                            Text(
+                              "444444444444444444444444444444444444444444444444444",
+                              style: TextStyle(
+                                fontSize: 20,
+                              ),
+                            ),
+
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        flex: 4,
+                        child: Column(
+                          children: const [
+                            Text(
+                              "555555555555555555555555555555555555555555555555555",
+                              style: TextStyle(
+                                fontSize: 20,
+                              ),
+                            ),
+
+                          ],
+                        ),
+                      ),
+
+                    ],
+                  ),
+                ),
+
+              ],
             ),
           ),
         ),
-      ],
+      ),
     );
   }
 }

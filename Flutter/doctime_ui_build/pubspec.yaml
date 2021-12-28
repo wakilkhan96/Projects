@@ -65,6 +65,8 @@ flutter:
     - assets/images/logo_doctime.png
     - assets/images/share_icon.png
     - assets/images/physician_icon.png
+    - assets/images/filter_icon.png
+    - assets/images/sort_icon.png
     - assets/images/video_background.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
