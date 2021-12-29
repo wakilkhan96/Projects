@@ -6,6 +6,7 @@ import 'package:doctime_ui_build/screens/ui_screens/screen2.dart';
 import 'package:doctime_ui_build/screens/ui_screens/screen3.dart';
 import 'package:doctime_ui_build/screens/my_screens/my_screen1.dart';
 import 'package:doctime_ui_build/screens/my_screens/my_screen2.dart';
+import 'package:doctime_ui_build/screens/my_screens/my_screen3.dart';
 import 'package:doctime_ui_build/screens/demo_screens/demo1.dart';
 import 'package:doctime_ui_build/screens/demo_screens/demo2.dart';
 
@@ -121,6 +122,19 @@ class MenuScreen1 extends StatelessWidget {
                     action: () {
                       Navigator.push(context,
                         MaterialPageRoute(builder: (context)=> const MyScreen2(),
+
+                        ),
+                      );
+                    },
+                  ),
+
+                  SizedBox(height: 30),
+
+                  _TextButton2(
+                    buttonText: 'My Screen 3',
+                    action: () {
+                      Navigator.push(context,
+                        MaterialPageRoute(builder: (context)=> const MyScreen3(),
 
                         ),
                       );
