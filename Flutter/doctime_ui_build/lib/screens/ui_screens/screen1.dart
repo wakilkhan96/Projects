@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 
-import 'package:doctime_ui_build/screens/my_screens/dummy_screen.dart';
+import 'package:doctime_ui_build/screens/ui_screens/dummy_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -186,17 +186,17 @@ class _UIScreen1State extends State<UIScreen1> {
 
                     // cards holder
 
+                    
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          doctorInfoCard(doctorInfoItems[0], context),
+                          doctorInfoCard(doctorInfoItems[0], context),
+                          doctorInfoCard(doctorInfoItems[0], context),
 
-
-                  SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        doctorInfoCard(doctorInfoItems[0], context),
-                        // doctorInfoCard(doctorInfoItems[0]),
-                        // doctorInfoCard(doctorInfoItems[0]),
-                        // doctorInfoCard(doctorInfoItems[0]),
-
-                      ],
+                        ],
+                      ),
                     ),
                   ),
 
@@ -281,21 +281,22 @@ Widget doctorInfoCard(DoctorInfo item, BuildContext context) {
           side: const BorderSide(color: Colors.black12, width: 2),
         ),
         // color: Colors.yellow,
-        child: InkWell(
-          onTap: () {
-            Navigator.push(context,
-              MaterialPageRoute(builder: (context)=> const DummyScreen(),
-              ),
-            );
+        child: Column(
+          // crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 5),
+              child: InkWell(
+                // splashColor: Colors.grey,
+                onTap: () {
+                  Navigator.push(context,
+                    MaterialPageRoute(builder: (context)=> const DummyScreen(text: "Card Body"),
+                    ),
+                  );
 
-          },
-          borderRadius: BorderRadius.circular(10),
-          child: Container(
-            child: Column(
-              // crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 5),
+                },
+                borderRadius: BorderRadius.circular(5),
+                child: Container(
                   child: Row(
                     children: [
                       Container(
@@ -507,85 +508,102 @@ Widget doctorInfoCard(DoctorInfo item, BuildContext context) {
                     ],
                   ),
                 ),
+              ),
+            ),
 
-                // Divider(
-                //   thickness: 2,
-                // ),
+            // Divider(
+            //   thickness: 2,
+            // ),
 
-                const Padding(
-                  padding: EdgeInsets.only(left: 2, right: 2),
-                  child: DottedLine(
-                    direction: Axis.horizontal,
-                    lineLength: double.infinity,
-                    lineThickness: 1.0,
-                    dashLength: 4.0,
-                    dashColor: Colors.black26,
-                    // dashGradient: [Colors.red, Colors.blue],
-                    dashRadius: 0.0,
-                    dashGapLength: 2.0,
-                    dashGapColor: Colors.transparent,
-                    // dashGapGradient: [Colors.red, Colors.blue],
-                    dashGapRadius: 0.0,
-                  ),
-                ),
+            const Padding(
+              padding: EdgeInsets.only(left: 2, right: 2),
+              child: DottedLine(
+                direction: Axis.horizontal,
+                lineLength: double.infinity,
+                lineThickness: 1.0,
+                dashLength: 4.0,
+                dashColor: Colors.black26,
+                // dashGradient: [Colors.red, Colors.blue],
+                dashRadius: 0.0,
+                dashGapLength: 2.0,
+                dashGapColor: Colors.transparent,
+                // dashGapGradient: [Colors.red, Colors.blue],
+                dashGapRadius: 0.0,
+              ),
+            ),
 
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 0, top: 0, right: 0, bottom: 0),
-                    child: Row(
-                      // crossAxisAlignment: CrossAxisAlignment.center,
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(left: 0, top: 0, right: 0, bottom: 0),
+                child: Row(
+                  // crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(left: 20),
-                              child: RichText(
-                                text: TextSpan(
-                                    text: '',  // default text
-                                    style: TextStyle(color: Colors.black),  // default color
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text: "\$"+item.doctorFeePerConsultation.toString(),
-                                        style: const TextStyle(
-                                          color: Colors.black,
-                                          fontFamily: 'RobotoMono',
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                      const TextSpan(
-                                        text: " (Incl. VAT) per consultation",
-                                        style: TextStyle(
-                                          color: Colors.grey,
-                                          fontFamily: 'RobotoMono',
-                                          fontWeight: FontWeight.w300,
-                                          fontSize: 14,
-                                        ),
-                                      ),
-
-                                    ]
-                                ),
-                              ),
-                            ),
-
-                          ],
-                        ),
-                        Expanded(child: SizedBox(height: 1,),),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              child: Container(
-                                width: 100,
-                                decoration: const BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(10),
-                                    bottomRight: Radius.circular(10),
+                        Padding(
+                          padding: EdgeInsets.only(left: 20),
+                          child: RichText(
+                            text: TextSpan(
+                                text: '',  // default text
+                                style: TextStyle(color: Colors.black),  // default color
+                                children: <TextSpan>[
+                                  TextSpan(
+                                    text: "\$"+item.doctorFeePerConsultation.toString(),
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontFamily: 'RobotoMono',
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 16,
+                                    ),
                                   ),
-                                  color: Colors.pinkAccent,
+                                  const TextSpan(
+                                    text: " (Incl. VAT) per consultation",
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                      fontFamily: 'RobotoMono',
+                                      fontWeight: FontWeight.w300,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+
+                                ]
+                            ),
+                          ),
+                        ),
+
+                      ],
+                    ),
+                    const Expanded(child: SizedBox(height: 1,),),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Container(
+                            width: 100,
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(10),
+                                bottomRight: Radius.circular(10),
+                              ),
+                              color: Colors.pinkAccent,
+                            ),
+                            child: Material(
+                              color: Colors.transparent,
+                              child: InkWell(
+                                splashColor: Colors.pink,
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(10),
+                                  bottomRight: Radius.circular(10),
                                 ),
+                                onTap: () {
+                                  Navigator.push(context,
+                                    MaterialPageRoute(builder: (context)=> const DummyScreen(text: "Button",),
+                                    ),
+                                  );
+
+                                },
                                 child: const Center(
                                   child: Icon(
                                     Icons.arrow_forward,
@@ -593,20 +611,20 @@ Widget doctorInfoCard(DoctorInfo item, BuildContext context) {
                                     color: Colors.white,
                                   ),
                                 ),
-
                               ),
                             ),
-                          ],
-                        ),
 
+                          ),
+                        ),
                       ],
                     ),
-                  ),
-                ),
 
-              ],
+                  ],
+                ),
+              ),
             ),
-          ),
+
+          ],
         ),
       ),
     ),
@@ -630,4 +648,18 @@ CircleAvatar(
   ),
 
 )
+
+
+InkWell(
+  onTap: () {
+    Navigator.push(context,
+      MaterialPageRoute(builder: (context)=> const DummyScreen(),
+      ),
+    );
+
+  },
+  borderRadius: BorderRadius.circular(10),
+  child: Container(
+  ),
+),
 * */
