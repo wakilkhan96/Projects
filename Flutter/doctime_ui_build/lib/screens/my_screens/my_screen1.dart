@@ -249,24 +249,33 @@ class _MyScreen1State extends State<MyScreen1> {
 
                   // cards holder
 
-
-
-                  Expanded(
-                    child: Container(
-                      color: const Color.fromRGBO(238, 244, 255, 1.0),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            doctorInfoCard(doctorInfoItems[0]),
-                            doctorInfoCard(doctorInfoItems[0]),
-                            doctorInfoCard(doctorInfoItems[0]),
-                            // doctorInfoCard(doctorInfoItems[0]),
-
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+				  /* widgets expanded upto bottom - way 1 best way*/
+				  Expanded(
+				    child: ListView.separated(
+				  	  scrollDirection: Axis.vertical,
+					  itemBuilder: (BuildContext context, int index)=>doctorInfoCard(doctorInfoItems[index], context),
+					  separatorBuilder: (BuildContext context, int index) =>const SizedBox(height: 10,),
+					  itemCount: doctorInfoItems.length,
+				    ),
+				  ),
+				  
+				  /* widgets expanded upto bottom - way 2*/
+                  // Expanded(
+                  //   child: Container(
+                  //     color: const Color.fromRGBO(238, 244, 255, 1.0),
+                  //     child: SingleChildScrollView(
+                  //       child: Column(
+                  //         children: [
+                  //           doctorInfoCard(doctorInfoItems[0]),
+                  //           doctorInfoCard(doctorInfoItems[0]),
+                  //           doctorInfoCard(doctorInfoItems[0]),
+                  //           // doctorInfoCard(doctorInfoItems[0]),
+				  // 
+                  //         ],
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
 
 
                 ],
