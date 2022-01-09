@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'dart:async';
+import 'package:land_consultancy_service/src/custom_date_time_utility.dart';
 
 class DropDownController {
-  dynamic value;
-  DropDownController(this.value);
+  dynamic selectedItem;
+  DropDownController(this.selectedItem);
 }
 
 class ConsultantRegistrationScreen extends StatefulWidget {
@@ -16,50 +17,49 @@ class ConsultantRegistrationScreen extends StatefulWidget {
       _ConsultantRegistrationScreenState();
 }
 
-class _ConsultantRegistrationScreenState
-    extends State<ConsultantRegistrationScreen> {
+class _ConsultantRegistrationScreenState extends State<ConsultantRegistrationScreen> {
   // final GlobalKey<_ConsultantRegistrationScreenState> parent = GlobalKey();
 
-  final TextEditingController controllerX =
-      TextEditingController(text: 'Mr. X');
+  final TextEditingController controllerX = TextEditingController(text: 'Mr. X');
   final formGlobalKey = GlobalKey<FormState>();
 
-  // List<int> myMenuItems = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  List<DropDownItemsButton> dropDownButtons = [];
   DropDownController dropDownControllerDay = DropDownController(null);
   DropDownController dropDownControllerMonth = DropDownController(null);
   DropDownController dropDownControllerYear = DropDownController(null);
 
-  _ConsultantRegistrationScreenState() {}
-  // int selected_item_int = 1;
-  // String selected_item_string = "one";
-  // dynamic selectedDayItem;
-  // dynamic selectedMonthItem;
-  // dynamic selectedYearItem;
+  CustomDateTimeUtility dateTimeUtility = CustomDateTimeUtility();
+  void validateDateMonthYear() {
+    dateTimeUtility.validateDayMonthYear(
+      dropDownControllerDay.selectedItem,
+      dropDownControllerMonth.selectedItem,
+      dropDownControllerYear.selectedItem,
+    );
+    dropDownControllerDay.selectedItem = dateTimeUtility.correctedDay;
+  }
 
-  // Widget dropdownItems({required List<dynamic>menuItems}) {
-  //   dynamic selectedItem;
-  //
-  //   return DropdownButtonHideUnderline(
-  //     child: DropdownButton<dynamic>(
-  //         hint: Text("Pick"),
-  //         // value: selected_item,
-  //         value: selectedItem,
-  //         items: menuItems.map((dynamic value) {
-  //           return DropdownMenuItem<dynamic>(
-  //             value: value,
-  //             child: Text(value.toString()),
-  //           );
-  //         }).toList(),
-  //         onChanged: (newVal) {
-  //           // selected_item = newVal!;
-  //           setState(() {
-  //             print("changed");
-  //             selectedItem = newVal!;
-  //           });
-  //         }),
-  //   );
-  // }
+  /* dynamic dropdown item button builder*/
+  Widget dropDownItemsButton({required List<dynamic> dropDownItems, required DropDownController dropDowController}) {
+    // List<dynamic> dropDownItems;
+    // DropDownController dropDowController;
+    return DropdownButtonHideUnderline(
+      child: DropdownButton<dynamic>(
+          hint: Text("Pick"),
+          // value: selected_item,
+          value: dropDowController.selectedItem,
+          items: dropDownItems.map((dynamic value) {
+            return DropdownMenuItem<dynamic>(
+              value: value,
+              child: Text(value.toString()),
+            );
+          }).toList(),
+          onChanged: (newValue) {
+            setState(() {
+              dropDowController.selectedItem = newValue!;
+              validateDateMonthYear(); // external call for selected date validation
+            });
+          }),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +75,7 @@ class _ConsultantRegistrationScreenState
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       const Text(
@@ -86,17 +86,18 @@ class _ConsultantRegistrationScreenState
                           color: Colors.black,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 40,
                       ),
                       BuildTextFormField(
                         labelText: "Name",
                         controller: controllerX,
                       ),
+                      const SizedBox(
+                        height: 20,
+                      ),
 
-
-
-                      SizedBox(height: 20,),
+                      /* Day - Month - Year Row*/
                       Row(
                         children: [
                           // SizedBox(width: 10,),
@@ -106,131 +107,58 @@ class _ConsultantRegistrationScreenState
                               // height:  70,
                               child: NamedInputFieldDecorator(
                                 labelText: "Day",
-                                child: DropDownItemsButton(
-                                  dropDownItems: const [1, 2, 3],
+                                child: dropDownItemsButton(
+                                  dropDownItems: dateTimeUtility.allDays,
                                   dropDowController: dropDownControllerDay,
                                 ),
                               ),
                             ),
                           ),
-                          SizedBox(width: 10,),
+                          const SizedBox(
+                            width: 10,
+                          ),
                           Expanded(
                             flex: 3,
                             child: SizedBox(
                               // height:  70,
                               child: NamedInputFieldDecorator(
                                 labelText: "Month",
-                                child: DropDownItemsButton(
-                                  dropDownItems: const ["January", "February", "March"],
+                                child: dropDownItemsButton(
+                                  dropDownItems: dateTimeUtility.allMonths,
                                   dropDowController: dropDownControllerMonth,
                                 ),
                               ),
                             ),
                           ),
-                          SizedBox(width: 10,),
+                          const SizedBox(
+                            width: 10,
+                          ),
                           Expanded(
                             flex: 2,
                             child: SizedBox(
                               // height:  70,
                               child: NamedInputFieldDecorator(
                                 labelText: "Year",
-                                child: DropDownItemsButton(
-                                  dropDownItems: const [2000, 2001, 2002],
+                                child: dropDownItemsButton(
+                                  dropDownItems: dateTimeUtility.allYears,
                                   dropDowController: dropDownControllerYear,
                                 ),
                               ),
                             ),
                           ),
-                          // SizedBox(width: 10,),
+
 
                         ],
-                        // children: [
-                        //   // Expanded(
-                        //   //   flex: 2,
-                        //   //   child: DropdownButtonHideUnderline(
-                        //   //     child: DropdownButton<int>(
-                        //   //         hint: Text("Pick"),
-                        //   //         value: selected_item,
-                        //   //         items: menuItems.map((int value) {
-                        //   //           return DropdownMenuItem<int>(
-                        //   //             value: value,
-                        //   //             child: Text(value.toString()),
-                        //   //           );
-                        //   //         }).toList(),
-                        //   //         onChanged: (newVal) {
-                        //   //           // selected_item = newVal!;
-                        //   //           setState(() {
-                        //   //             selected_item = newVal!;
-                        //   //           });
-                        //   //         }),
-                        //   //   ),
-                        //   // ),
-                        //   // Expanded(
-                        //   //   flex: 3,
-                        //   //   child: DropdownButtonHideUnderline(
-                        //   //     child: DropdownButton<int>(
-                        //   //         // isExpanded: true,
-                        //   //         hint: Text("Pick"),
-                        //   //         value: selected_item,
-                        //   //         items: menuItems.map((int value) {
-                        //   //           return DropdownMenuItem<int>(
-                        //   //             value: value,
-                        //   //             child: Text(value.toString()),
-                        //   //           );
-                        //   //         }).toList(),
-                        //   //         onChanged: (newVal) {
-                        //   //           // selected_item = newVal!;
-                        //   //           setState(() {
-                        //   //             selected_item = newVal!;
-                        //   //           });
-                        //   //         }),
-                        //   //   ),
-                        //   // ),
-                        //   // Expanded(
-                        //   //   flex: 2,
-                        //   //   child: DropdownButtonHideUnderline(
-                        //   //     child: DropdownButton<int>(
-                        //   //         hint: Text("Pick"),
-                        //   //         value: selected_item,
-                        //   //         items: menuItems.map((int value) {
-                        //   //           return DropdownMenuItem<int>(
-                        //   //             value: value,
-                        //   //             child: Text(value.toString()),
-                        //   //           );
-                        //   //         }).toList(),
-                        //   //         onChanged: (newVal) {
-                        //   //           // selected_item = newVal!;
-                        //   //           setState(() {
-                        //   //             selected_item = newVal!;
-                        //   //           });
-                        //   //         }),
-                        //   //   ),
-                        //   // ),
-                        //
-                        //   // dropdownItems(menuItems: [1, 2, 3]),
-                        //   // dropdownItems(menuItems: [1, 2, 3]),
-                        //   // DropdownItemsButton(dropDownItems: [1, 2, 3], parent: parent,),
-                        //   DropDownItemsButton(
-                        //     dropDownItems: [1, 2, 3],
-                        //   ),
-                        //   DropDownItemsButton(
-                        //     dropDownItems: ["Jan","Feb", "Mar"],
-                        //   ),
-                        //   DropDownItemsButton(
-                        //     dropDownItems: [2019, 2020, 2021],
-                        //   ),
-                        //
-                        //
-                        // ],
-                      ),
 
+                      ),
                       TextButton(
                         onPressed: () {
-                          print(
-                            dropDownControllerDay.value.toString() + " " +
-                            dropDownControllerMonth.value.toString() + " " +
-                            dropDownControllerYear.value.toString()
-                          );
+                          // setState(() {});
+                          print(dropDownControllerDay.selectedItem.toString() +
+                              " " +
+                              dropDownControllerMonth.selectedItem.toString() +
+                              " " +
+                              dropDownControllerYear.selectedItem.toString());
                         },
                         child: const Text("Get"),
                       ),
@@ -279,71 +207,103 @@ class BuildTextFormField extends StatelessWidget {
   }
 }
 
-class DropDownItemsButton extends StatefulWidget {
-  List<dynamic> dropDownItems;
-  DropDownController dropDowController;
-  DropDownItemsButton(
-      {Key? key, required this.dropDownItems, required this.dropDowController})
-      : super(key: key);
-
-  @override
-  _DropDownItemsButtonState createState() => _DropDownItemsButtonState(
-      dropDownItems: dropDownItems, dropDowController: dropDowController);
-}
-
-class _DropDownItemsButtonState extends State<DropDownItemsButton> {
-  // final Function onChangedFunction;
-  dynamic selectedItem;
-  List<dynamic> dropDownItems;
-  DropDownController dropDowController;
-
-  _DropDownItemsButtonState(
-      {Key? key, required this.dropDownItems, required this.dropDowController});
-  // _DropDownItemsButtonState({Key? key, required this.dropDownItems, required this.onChangedFunction}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return DropdownButtonHideUnderline(
-      child: DropdownButton<dynamic>(
-          hint: Text("Pick"),
-          // value: selected_item,
-          value: selectedItem,
-          items: dropDownItems.map((dynamic value) {
-            return DropdownMenuItem<dynamic>(
-              value: value,
-              child: Text(value.toString()),
-            );
-          }).toList(),
-          onChanged: (newValue) {
-            selectedItem = newValue!;
-            setState(() {
-              // print("changed");
-              selectedItem = newValue!;
-              dropDowController.value = selectedItem;
-            });
-          }),
-    );
-  }
-}
 
 class NamedInputFieldDecorator extends StatelessWidget {
   final String labelText;
   final dynamic child;
-  const NamedInputFieldDecorator({Key? key, required this.labelText, required this.child}) : super(key: key);
+  const NamedInputFieldDecorator(
+      {Key? key, required this.labelText, required this.child})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InputDecorator(
-      decoration: InputDecoration(
-        labelText: labelText,
-        contentPadding: EdgeInsets.only(left: 15),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(7.0),
+        decoration: InputDecoration(
+          labelText: labelText,
+          contentPadding: EdgeInsets.only(left: 15),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(7.0),
+          ),
         ),
-      ),
-      child: child
-    );
-
+        child: child);
   }
 }
+
+
+// Widget dropdownItems({required List<dynamic>menuItems}) {
+//   dynamic selectedItem;
+//
+//   return DropdownButtonHideUnderline(
+//     child: DropdownButton<dynamic>(
+//         hint: Text("Pick"),
+//         // value: selected_item,
+//         value: selectedItem,
+//         items: menuItems.map((dynamic value) {
+//           return DropdownMenuItem<dynamic>(
+//             value: value,
+//             child: Text(value.toString()),
+//           );
+//         }).toList(),
+//         onChanged: (newVal) {
+//           // selected_item = newVal!;
+//           setState(() {
+//             print("changed");
+//             selectedItem = newVal!;
+//           });
+//         }),
+//   );
+// }
+
+
+/* i could not update/set State of  stateful child from parent class so did not use it,
+  but will definitely try this later
+
+// class DropDownItemsButton extends StatefulWidget {
+//   List<dynamic> dropDownItems;
+//   DropDownController dropDowController;
+//   DropDownItemsButton(
+//       {Key? key, required this.dropDownItems, required this.dropDowController})
+//       : super(key: key);
+//
+//   @override
+//   _DropDownItemsButtonState createState() => _DropDownItemsButtonState(dropDownItems: dropDownItems, dropDowController: dropDowController);
+//
+// }
+//
+// class _DropDownItemsButtonState extends State<DropDownItemsButton> {
+//   // final Function onChangedFunction;
+//   dynamic selectedItem;
+//   List<dynamic> dropDownItems;
+//   DropDownController dropDowController;
+//
+//   _DropDownItemsButtonState(
+//       {Key? key, required this.dropDownItems, required this.dropDowController});
+//   // _DropDownItemsButtonState({Key? key, required this.dropDownItems, required this.onChangedFunction}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return DropdownButtonHideUnderline(
+//       child: DropdownButton<dynamic>(
+//           hint: Text("Pick"),
+//           // value: selected_item,
+//           value: selectedItem,
+//           items: dropDownItems.map((dynamic value) {
+//             return DropdownMenuItem<dynamic>(
+//               value: value,
+//               child: Text(value.toString()),
+//             );
+//           }).toList(),
+//           onChanged: (newValue) {
+//             selectedItem = newValue!;
+//             setState(() {
+//               // print("changed");
+//               selectedItem = newValue!;
+//               dropDowController.value = selectedItem;
+//             });
+//           }),
+//     );
+//   }
+// }
+*/
+
 
