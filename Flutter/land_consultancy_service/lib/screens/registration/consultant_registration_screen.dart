@@ -48,6 +48,11 @@ class _ConsultantRegistrationScreenState extends State<ConsultantRegistrationScr
 
   CustomRadioButtonsController radioButtonsController = CustomRadioButtonsController(null);
 
+
+  CustomMultiSelectionButtonController multiSelectionButtonController = CustomMultiSelectionButtonController();
+
+
+
   /* dynamic dropdown item button builder*/
   Widget dropDownItemsButton({required List<dynamic> dropDownItems, required DropDownController dropDowController}) {
     // List<dynamic> dropDownItems;
@@ -279,6 +284,51 @@ class _ConsultantRegistrationScreenState extends State<ConsultantRegistrationScr
                       ),
 
 
+                      Container(
+                        width: 100,
+                        height: 50,
+                        color: Colors.yellow,
+                        child: InkWell(
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (ctx) {
+                                  return AlertDialog(
+                                    title: Text('Select Items'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () {
+
+                                        },
+                                        child: Text('OK'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          multiSelectionButtonController.selectedItems.clear();
+                                        },
+                                        child: Text('Cancel'),
+                                      ),
+
+                                    ],
+                                    content: Container(
+                                      width: 250,
+                                      height: 300,
+                                      child: CustomMultiSelectionButton(
+                                        multiSelectionItems: ["Item 1", "Item 2", "Item 3"],
+                                        multiSelectionButtonController: multiSelectionButtonController,
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                            }
+                        ),
+                      ),
+
+
+
+
+
                       TextButton(
                         onPressed: () {
                           // setState(() {});
@@ -293,6 +343,8 @@ class _ConsultantRegistrationScreenState extends State<ConsultantRegistrationScr
                           print(controllerWorkplace.text);
                           print(controllerPresentAddress.text);
                           print(controllerPermanentAddress.text);
+                          print(multiSelectionButtonController.selectedItems);
+                          print(multiSelectionButtonController.selectedItemsIndices);
                         },
                         child: const Text("Get"),
                       ),
@@ -567,5 +619,117 @@ class DropDownController {
 //   }
 // }
 */
+
+
+
+class CustomMultiSelectionButtonController {
+  List<dynamic> selectedItems = [];
+  List<int> selectedItemsIndices = [];
+// CustomMultiSelectionButtonController(this.selectedItems);
+}
+
+class MultiSelectionItemState {
+  dynamic selectionItem;
+  bool isSelected;
+  MultiSelectionItemState(
+      {required this.selectionItem, required this.isSelected});
+}
+
+class CustomMultiSelectionButton extends StatefulWidget {
+  List<dynamic> multiSelectionItems;
+  CustomMultiSelectionButtonController multiSelectionButtonController;
+
+  CustomMultiSelectionButton({
+    Key? key,
+    required this.multiSelectionItems,
+    required this.multiSelectionButtonController,
+  }) : super(key: key);
+
+  @override
+  _CustomMultiSelectionButtonState createState() =>
+      _CustomMultiSelectionButtonState(
+        multiSelectionItems: multiSelectionItems,
+        multiSelectionButtonController: multiSelectionButtonController,
+      );
+}
+
+class _CustomMultiSelectionButtonState
+    extends State<CustomMultiSelectionButton> {
+  List<MultiSelectionItemState> multiSelectionItemsStates = [];
+  List<dynamic> multiSelectionItems;
+  CustomMultiSelectionButtonController multiSelectionButtonController;
+
+  _CustomMultiSelectionButtonState({
+    required this.multiSelectionItems,
+    required this.multiSelectionButtonController,
+  }) {
+    for (int index=0; index < multiSelectionItems.length; index++) {
+      multiSelectionItemsStates.add(
+        MultiSelectionItemState(
+          selectionItem: multiSelectionItems[index],
+          isSelected: (multiSelectionButtonController.selectedItemsIndices.contains(index)? true : false),
+        ),
+      );
+    }
+  }
+
+  Widget multiSelectionItemBuilder(int multiSelectionItemIndex) {
+    return Column(
+      children: <Widget>[
+        Row(
+          // mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Checkbox(
+                value: multiSelectionItemsStates[multiSelectionItemIndex].isSelected,
+                onChanged: (value) {
+                  setState(() {
+                    multiSelectionItemsStates[multiSelectionItemIndex]
+                        .isSelected =
+                    !multiSelectionItemsStates[multiSelectionItemIndex]
+                        .isSelected;
+                    if(multiSelectionButtonController.selectedItemsIndices
+                        .contains(multiSelectionItemIndex)) {
+                      multiSelectionButtonController.selectedItems
+                          .remove(multiSelectionItemsStates[multiSelectionItemIndex].selectionItem);
+                      multiSelectionButtonController.selectedItemsIndices
+                          .remove(multiSelectionItemIndex);
+                    }
+                    else {
+                      multiSelectionButtonController.selectedItems
+                          .add(multiSelectionItemsStates[multiSelectionItemIndex].selectionItem);
+                      multiSelectionButtonController.selectedItemsIndices
+                          .add(multiSelectionItemIndex);
+                    }
+
+                  });
+                }
+            ),
+            const Padding(padding: EdgeInsets.only(left: 0.0)),
+            Text(
+              multiSelectionItemsStates[multiSelectionItemIndex]
+                  .selectionItem
+                  .toString(),
+              style: const TextStyle(
+                fontSize: 16,
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: ListView.builder(
+        itemBuilder: (BuildContext context, int index) => multiSelectionItemBuilder(index),
+        itemCount: multiSelectionItemsStates.length,
+      ),
+    );
+  }
+}
+
+
 
 
