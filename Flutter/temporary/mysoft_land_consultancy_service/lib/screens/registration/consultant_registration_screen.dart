@@ -1,10 +1,62 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
+
 import 'dart:io';
 import 'dart:async';
 import 'package:land_consultancy_service/src/custom_date_time_utility.dart';
 
 enum Gender { Male, Female, Other }
+
+class Animal {
+  final int id;
+  final String name;
+
+  Animal({
+    required this.id,
+    required this.name,
+  });
+}
+// class CustomMultiSelectionItem {
+//   dynamic itemValue;
+//   int itemIndex;
+//   CustomMultiSelectionItem({required this.itemValue, required this.itemIndex});
+// }
+
+// class CustomMultiSelectionButtonController {
+//   // List<dynamic> selectedItems = [];
+//   // List<int> selectedItemsIndices = [];
+//   List<CustomMultiSelectionItem> selectedItems = [];
+//   // CustomMultiSelectionButtonController(this.selectedItems);
+//
+//   List<dynamic> getSelectedItemsValues() {
+//     List<dynamic> selectedItemsValues = [];
+//     for(var eachItem in selectedItems) {
+//       selectedItemsValues.add(eachItem.itemValue);
+//     }
+//     return selectedItemsValues;
+//   }
+//
+//   List<dynamic> getSelectedItemsIndices() {
+//     List<dynamic> selectedItemsIndices = [];
+//     for(var eachItem in selectedItems) {
+//       selectedItemsIndices.add(eachItem.itemIndex);
+//     }
+//     return selectedItemsIndices;
+//   }
+//
+// }
+
+
+class CustomMultiSelectionButtonController {
+  List<dynamic> selectedItems = [];
+  List<int> selectedItemsIndices = [];
+// CustomMultiSelectionButtonController(this.selectedItems);
+}
+
+
+
+
 
 class ConsultantRegistrationScreen extends StatefulWidget {
   static String pageID = 'consultant_registration_screen';
@@ -45,8 +97,98 @@ class _ConsultantRegistrationScreenState
 
   CustomDateTimeUtility dateTimeUtility = CustomDateTimeUtility();
 
+  CustomMultiSelectionButtonController customMultiSelectionButtonController = CustomMultiSelectionButtonController();
+
   Gender selectedGender = Gender.Male;
-  CustomRadioButtonsController radioButtonsController = CustomRadioButtonsController(null);
+
+  List<Widget> specialities = [];
+
+
+  _ConsultantRegistrationScreenState() {
+    customMultiSelectionButtonController.selectedItems.add("froggie_morgan_gottar");
+    customMultiSelectionButtonController.selectedItems.add("morgan_gottar");
+    customMultiSelectionButtonController.selectedItems.add("oggie_bar");
+
+    customMultiSelectionButtonController.selectedItemsIndices.add(1);
+    customMultiSelectionButtonController.selectedItemsIndices.add(0);
+    customMultiSelectionButtonController.selectedItemsIndices.add(3);
+    // CardItem("froggie_morgan_gottar", 1, customMultiSelectionButtonController),
+    // CardItem("morgan_gottar", 0, customMultiSelectionButtonController),
+    // CardItem("oggie_bar", 3, customMultiSelectionButtonController),
+    // CardItem("gottar_morgan", 2, customMultiSelectionButtonController),
+
+    for(int i=0; i<customMultiSelectionButtonController.selectedItems.length; i++) {
+      specialities.add(
+          CardItem(
+            customMultiSelectionButtonController.selectedItems[i],
+            customMultiSelectionButtonController.selectedItemsIndices[i],
+            customMultiSelectionButtonController
+          ),
+      );
+
+    }
+  }
+
+  Widget CardItem(dynamic selectedItem, int selectedItemIndex, CustomMultiSelectionButtonController controller) {
+    return Card(
+      shape: RoundedRectangleBorder(
+        side: BorderSide(color: Colors.blue, width: 1),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      color: Color.fromRGBO(228, 240, 250, 1),
+      elevation: 2,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+        child: Wrap(
+          children: [
+            InkWell(
+              child: const Icon(Icons.clear, size: 20,),
+              onTap: () {
+                print("tapped_on_clear_icon");
+                // print(controller.selectedItems);
+                final index = controller.selectedItemsIndices.indexWhere((element) =>
+                element == selectedItemIndex);
+                if (index >= 0) {
+                  controller.selectedItems.removeAt(index);
+                  controller.selectedItemsIndices.removeAt(index);
+                  specialities.removeAt(index);
+
+                  setState(() {
+                    // specialities.clear();
+                    // for(int i=0; i<customMultiSelectionButtonController.selectedItems.length; i++) {
+                    //   specialities.add(
+                    //     CardItem(
+                    //         customMultiSelectionButtonController.selectedItems[i],
+                    //         customMultiSelectionButtonController.selectedItemsIndices[i],
+                    //         customMultiSelectionButtonController
+                    //     ),
+                    //   );
+                    //
+                    // }
+                  });
+                }
+
+              },
+              // splashColor: Color.fromRGBO(229, 240, 250, 1),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            Text(
+              selectedItem.toString(),
+              style: TextStyle(
+                fontSize: 17,
+              ),
+            ),
+            SizedBox(
+              width: 10,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -270,8 +412,8 @@ class _ConsultantRegistrationScreenState
                         child: Container(
                             height: 50,
                             decoration: BoxDecoration(
-                              // color: Colors.black12,
-                            ),
+                                // color: Colors.black12,
+                                ),
                             child: Row(
                               // mainAxisAlignment: MainAxisAlignment.start,
                               children: [
@@ -284,9 +426,10 @@ class _ConsultantRegistrationScreenState
                                     });
                                   },
                                 ),
-                                SizedBox(width: 0,),
+                                SizedBox(
+                                  width: 0,
+                                ),
                                 Text("Male"),
-
                                 Radio<Gender>(
                                   value: Gender.Female,
                                   groupValue: selectedGender,
@@ -296,9 +439,10 @@ class _ConsultantRegistrationScreenState
                                     });
                                   },
                                 ),
-                                SizedBox(width: 0,),
+                                SizedBox(
+                                  width: 0,
+                                ),
                                 Text("Female"),
-
                                 Radio<Gender>(
                                   value: Gender.Other,
                                   groupValue: selectedGender,
@@ -308,13 +452,12 @@ class _ConsultantRegistrationScreenState
                                     });
                                   },
                                 ),
-                                SizedBox(width: 0,),
+                                SizedBox(
+                                  width: 0,
+                                ),
                                 Text("Other"),
-
-
                               ],
-                            )
-                        ),
+                            )),
                       ),
 
                       const SizedBox(
@@ -374,7 +517,73 @@ class _ConsultantRegistrationScreenState
                       //   controller: controllerConfirmPassword,
                       // ),
 
+                      InputDecorator(
+                        decoration: InputDecoration(
+                          labelText: "Specialities",
+                          // errorText: "errorText",
+                          // floatingLabelBehavior: FloatingLabelBehavior.always,
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 14, horizontal: 10),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: const BorderSide(
+                              color: Colors.blue,
+                            ),
+                          ),
+                        ),
+                        child: Wrap(
+                          direction: Axis.horizontal,
+                          children: specialities,
+                          // children: [
+                          //   CardItem("froggie_morgan_gottar", 1, customMultiSelectionButtonController),
+                          //   CardItem("morgan_gottar", 0, customMultiSelectionButtonController),
+                          //   CardItem("oggie_bar", 3, customMultiSelectionButtonController),
+                          //   CardItem("gottar_morgan", 2, customMultiSelectionButtonController),
+                          //
+                          // ],
+                        ),
+                      ),
 
+                      const SizedBox(
+                        height: 20,
+                      ),
+
+
+                      // Container(
+                      //   color: Colors.transparent,
+                      //   child: Column(
+                      //     children: [
+                      //       MultiSelectDialogField(
+                      //         items: _items.map((e) => MultiSelectItem(e, e.name)).toList(),
+                      //         title: Text("Animals"),
+                      //         selectedColor: Colors.blue,
+                      //         decoration: BoxDecoration(
+                      //           color: Colors.blue.withOpacity(0.1),
+                      //           borderRadius: BorderRadius.all(Radius.circular(40)),
+                      //           border: Border.all(
+                      //             color: Colors.blue,
+                      //             width: 2,
+                      //           ),
+                      //         ),
+                      //         buttonIcon: Icon(
+                      //           Icons.pets,
+                      //           color: Colors.blue,
+                      //         ),
+                      //         buttonText: Text(
+                      //           "Favorite Animals",
+                      //           style: TextStyle(
+                      //             color: Colors.blue[800],
+                      //             fontSize: 16,
+                      //           ),
+                      //         ),
+                      //         onConfirm: (results) {
+                      //           // _selectedAnimals = results;
+                      //           // print(results.toString());
+                      //         },
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
 
                       TextButton(
                         onPressed: () {
@@ -384,9 +593,19 @@ class _ConsultantRegistrationScreenState
                               " " +
                               selectedYearValue.toString());
                           // print(radioButtonsController.selectedItem);
-                          if(selectedGender==Gender.Male) print("Male");
-                          else if(selectedGender==Gender.Female) print("Female");
-                          else if(selectedGender==Gender.Other) print("Other");
+                          print(controllerExperience.text);
+                          print(controllerWorkplace.text);
+                          if (selectedGender == Gender.Male)
+                            print("Male");
+                          else if (selectedGender == Gender.Female)
+                            print("Female");
+                          else if (selectedGender == Gender.Other)
+                            print("Other");
+                          print(controllerNID.text);
+                          print(controllerPresentAddress.text);
+                          print(controllerPermanentAddress.text);
+                          // print(multiSelectionButtonController.selectedItems);
+                          // print(multiSelectionButtonController.selectedItemsIndices);
                         },
                         child: const Text("Get"),
                       ),
@@ -445,78 +664,6 @@ class BuildTextFormField extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-
-class CustomRadioButtonsController {
-  dynamic selectedItem;
-  CustomRadioButtonsController(this.selectedItem);
-}
-
-class CustomRadioButtons extends StatefulWidget {
-
-  List<dynamic> radioItems;
-  CustomRadioButtonsController radioButtonsController;
-  dynamic scrollDirection;
-
-  CustomRadioButtons({Key? key, required this.radioItems, required this.radioButtonsController, required this.scrollDirection}) : super(key: key);
-
-  @override
-  _CustomRadioButtonsState createState() => _CustomRadioButtonsState(radioItems: radioItems, radioButtonsController: radioButtonsController, scrollDirection: scrollDirection);
-}
-
-class _CustomRadioButtonsState extends State<CustomRadioButtons> {
-
-  List<dynamic> radioItems;
-  CustomRadioButtonsController radioButtonsController;
-  dynamic scrollDirection;
-
-  _CustomRadioButtonsState({required this.radioItems, required this.radioButtonsController, required this.scrollDirection});
-
-  Widget radioItemBuilder(dynamic radioItem, CustomRadioButtonsController radioButtonsController) {
-    return Column(
-      children: <Widget>[
-        Row(
-          // mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Radio<dynamic>(
-              value: radioItem,
-              groupValue: radioButtonsController.selectedItem,
-              onChanged: (value) {
-                setState(() {
-                  radioButtonsController.selectedItem = value!;
-                });
-                // print(value);
-              },
-            ),
-            const Padding(padding: EdgeInsets.only(left: 0.0)),
-            Text(
-              radioItem.toString(),
-              style: const TextStyle(
-                fontSize: 16,
-              ),
-            ),
-
-
-
-          ],
-        ),
-      ],
-    );
-  }
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: ListView.separated(
-        // scrollDirection: Axis.vertical,
-        scrollDirection: scrollDirection,
-        itemBuilder: (BuildContext context, int index)=>radioItemBuilder(radioItems[index], radioButtonsController),
-        // separatorBuilder: (BuildContext context, int index) =>const SizedBox(height: 10,),
-        separatorBuilder: (BuildContext context, int index) => (scrollDirection==Axis.horizontal? SizedBox(width: 10,): SizedBox(height: 0,)),
-        itemCount: radioItems.length,
       ),
     );
   }

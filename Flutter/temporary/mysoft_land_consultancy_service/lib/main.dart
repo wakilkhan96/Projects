@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:land_consultancy_service/screens/registration/consultant_registration_screen.dart';
+
+import "package:land_consultancy_service/TestMultiSelectListPage.dart";
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -12,10 +14,14 @@ class MyApp extends StatelessWidget {
       // home: const LoadingScreen(),
       // initialRoute: '/initial',
       initialRoute: ConsultantRegistrationScreen.pageID,
+      // initialRoute: '/initial',
       routes: {
         // '/initial': (context) => const ConsultantRegistrationScreen(),
         ConsultantRegistrationScreen.pageID: (context) => const ConsultantRegistrationScreen(),
+
+        // '/initial' : (context) => TestMultiSelectListPage(),
       },
     );
   }
 }
+
