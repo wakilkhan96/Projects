@@ -8,51 +8,32 @@ import 'package:land_consultancy_service/src/custom_date_time_utility.dart';
 
 enum Gender { Male, Female, Other }
 
-class Animal {
-  final int id;
-  final String name;
 
-  Animal({
-    required this.id,
-    required this.name,
-  });
-}
-// class CustomMultiSelectionItem {
-//   dynamic itemValue;
-//   int itemIndex;
-//   CustomMultiSelectionItem({required this.itemValue, required this.itemIndex});
-// }
-
-// class CustomMultiSelectionButtonController {
-//   // List<dynamic> selectedItems = [];
-//   // List<int> selectedItemsIndices = [];
-//   List<CustomMultiSelectionItem> selectedItems = [];
-//   // CustomMultiSelectionButtonController(this.selectedItems);
-//
-//   List<dynamic> getSelectedItemsValues() {
-//     List<dynamic> selectedItemsValues = [];
-//     for(var eachItem in selectedItems) {
-//       selectedItemsValues.add(eachItem.itemValue);
-//     }
-//     return selectedItemsValues;
-//   }
-//
-//   List<dynamic> getSelectedItemsIndices() {
-//     List<dynamic> selectedItemsIndices = [];
-//     for(var eachItem in selectedItems) {
-//       selectedItemsIndices.add(eachItem.itemIndex);
-//     }
-//     return selectedItemsIndices;
-//   }
-//
-// }
-
-
-class CustomMultiSelectionButtonController {
+class CustomController {
+  // List<dynamic> selectedItems = [];
+  // List<int> selectedItemsIndices = [];
   List<dynamic> selectedItems = [];
-  List<int> selectedItemsIndices = [];
-// CustomMultiSelectionButtonController(this.selectedItems);
+  List<int> selectedItemsIndexID = [];
+  // customController(this.selectedItems);
+
+  List<dynamic> getSelectedItemsValues() {
+    List<dynamic> selectedItemsValues = [];
+    for(var eachItem in selectedItems) {
+      selectedItemsValues.add(eachItem.itemValue);
+    }
+    return selectedItemsValues;
+  }
+
+  List<dynamic> getSelectedItemsIndices() {
+    List<dynamic> selectedItemsIndices = [];
+    for(var eachItem in selectedItems) {
+      selectedItemsIndices.add(eachItem.itemIndex);
+    }
+    return selectedItemsIndices;
+  }
+
 }
+
 
 
 
@@ -97,39 +78,114 @@ class _ConsultantRegistrationScreenState
 
   CustomDateTimeUtility dateTimeUtility = CustomDateTimeUtility();
 
-  CustomMultiSelectionButtonController customMultiSelectionButtonController = CustomMultiSelectionButtonController();
 
   Gender selectedGender = Gender.Male;
+  
+  CustomController customController = CustomController();
 
   List<Widget> specialities = [];
-
+  
+  List<itemStateInfo> itemStates = [];
 
   _ConsultantRegistrationScreenState() {
-    customMultiSelectionButtonController.selectedItems.add("froggie_morgan_gottar");
-    customMultiSelectionButtonController.selectedItems.add("morgan_gottar");
-    customMultiSelectionButtonController.selectedItems.add("oggie_bar");
 
-    customMultiSelectionButtonController.selectedItemsIndices.add(1);
-    customMultiSelectionButtonController.selectedItemsIndices.add(0);
-    customMultiSelectionButtonController.selectedItemsIndices.add(3);
-    // CardItem("froggie_morgan_gottar", 1, customMultiSelectionButtonController),
-    // CardItem("morgan_gottar", 0, customMultiSelectionButtonController),
-    // CardItem("oggie_bar", 3, customMultiSelectionButtonController),
-    // CardItem("gottar_morgan", 2, customMultiSelectionButtonController),
+    itemStates.add(itemStateInfo(selectionItem: "item 1", isSelected: false),);
+    itemStates.add(itemStateInfo(selectionItem: "item 2", isSelected: false),);
+    itemStates.add(itemStateInfo(selectionItem: "item 3", isSelected: false),);
 
-    for(int i=0; i<customMultiSelectionButtonController.selectedItems.length; i++) {
-      specialities.add(
-          CardItem(
-            customMultiSelectionButtonController.selectedItems[i],
-            customMultiSelectionButtonController.selectedItemsIndices[i],
-            customMultiSelectionButtonController
-          ),
-      );
+    for(int i=0; i<itemStates.length; i++) {
+      print(itemStates[i].selectionItem+ " = "+itemStates[i].isSelected.toString());
 
     }
+
+
   }
 
-  Widget CardItem(dynamic selectedItem, int selectedItemIndex, CustomMultiSelectionButtonController controller) {
+  // Widget itemBuilder(int index) {
+  //   return StatefulBuilder(
+  //       builder: (BuildContext context, StateSetter setState) {
+  //         return Row(
+  //           children: <Widget>[
+  //             Checkbox(
+  //                 value: itemStates[index].isSelected,
+  //                 onChanged: (value) {
+  //                   setState(() {
+  //                     itemStates[index].isSelected = !itemStates[index].isSelected;
+  //
+  //                     if(itemStates[index].isSelected) {
+  //                       customController.selectedItems
+  //                           .add(itemStates[index].selectionItem);
+  //                       customController.selectedItemsIndexID
+  //                           .add(index);
+  //                     }
+  //                     else {
+  //                       customController.selectedItems
+  //                           .remove(itemStates[index].selectionItem);
+  //                       customController.selectedItemsIndexID
+  //                           .remove(index);
+  //                     }
+  //
+  //                     // print(customController.selectedItems);
+  //
+  //                   });
+  //
+  //                 }
+  //             ),
+  //             const Padding(padding: EdgeInsets.only(left: 0.0)),
+  //             Text(
+  //               itemStates[index]
+  //                   .selectionItem
+  //                   .toString(),
+  //               style: const TextStyle(
+  //                 fontSize: 16,
+  //               ),
+  //             ),
+  //           ],
+  //         );
+  //       });
+  // }
+  Widget itemBuilder(int index) {
+    return Row(
+      children: <Widget>[
+        Checkbox(
+            value: itemStates[index].isSelected,
+            onChanged: (value) {
+              setState(() {
+                itemStates[index].isSelected = !itemStates[index].isSelected;
+
+                if(itemStates[index].isSelected) {
+                  customController.selectedItems
+                      .add(itemStates[index].selectionItem);
+                  customController.selectedItemsIndexID
+                      .add(index);
+                }
+                else {
+                  customController.selectedItems
+                      .remove(itemStates[index].selectionItem);
+                  customController.selectedItemsIndexID
+                      .remove(index);
+                }
+
+                // print(customController.selectedItems);
+
+              });
+
+            }
+        ),
+        const Padding(padding: EdgeInsets.only(left: 0.0)),
+        Text(
+          itemStates[index]
+              .selectionItem
+              .toString(),
+          style: const TextStyle(
+            fontSize: 16,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget cardItem(dynamic selectedItem, int selectedItemIndex, CustomController controller) {
     return Card(
       shape: RoundedRectangleBorder(
         side: BorderSide(color: Colors.blue, width: 1),
@@ -146,29 +202,24 @@ class _ConsultantRegistrationScreenState
               onTap: () {
                 print("tapped_on_clear_icon");
                 // print(controller.selectedItems);
-                final index = controller.selectedItemsIndices.indexWhere((element) =>
-                element == selectedItemIndex);
-                if (index >= 0) {
-                  controller.selectedItems.removeAt(index);
-                  controller.selectedItemsIndices.removeAt(index);
-                  specialities.removeAt(index);
+                controller.selectedItems.remove(selectedItem);
+                controller.selectedItemsIndexID.remove(selectedItemIndex);
 
-                  setState(() {
-                    // specialities.clear();
-                    // for(int i=0; i<customMultiSelectionButtonController.selectedItems.length; i++) {
-                    //   specialities.add(
-                    //     CardItem(
-                    //         customMultiSelectionButtonController.selectedItems[i],
-                    //         customMultiSelectionButtonController.selectedItemsIndices[i],
-                    //         customMultiSelectionButtonController
-                    //     ),
-                    //   );
-                    //
-                    // }
-                  });
-                }
+                setState(() {
+                  specialities.clear();
+                  for(int i=0; i<customController.selectedItems.length; i++) {
+                    specialities.add(
+                      cardItem(
+                          customController.selectedItems[i],
+                          customController.selectedItemsIndexID[i],
+                          customController,
+                      ),
+                    );
 
+                  }
+                });
               },
+
               // splashColor: Color.fromRGBO(229, 240, 250, 1),
               borderRadius: BorderRadius.circular(12),
             ),
@@ -189,6 +240,7 @@ class _ConsultantRegistrationScreenState
       ),
     );
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -218,31 +270,13 @@ class _ConsultantRegistrationScreenState
                       const SizedBox(
                         height: 40,
                       ),
-                      // BuildTextFormField(
-                      //   labelText: "Name",
-                      //   controller: controllerX,
-                      //   keyboardType: TextInputType.text,
-                      //   filter: <TextInputFormatter>[
-                      //     FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z.-]')),
-                      //   ],
-                      // ),
+
 
                       const SizedBox(
                         height: 20,
                       ),
-                      // Row(
-                      //   children: [
-                      //     const Text(
-                      //       "  Date of Birth",
-                      //       style: TextStyle(
-                      //         fontFamily: 'OpenSans',
-                      //         fontSize: 16,
-                      //         color: Colors.black,
-                      //       ),
-                      //     ),
-                      //   ],
-                      //
-                      // ),
+
+
                       const SizedBox(
                         height: 5,
                       ),
@@ -531,16 +565,97 @@ class _ConsultantRegistrationScreenState
                             ),
                           ),
                         ),
-                        child: Wrap(
-                          direction: Axis.horizontal,
-                          children: specialities,
-                          // children: [
-                          //   CardItem("froggie_morgan_gottar", 1, customMultiSelectionButtonController),
-                          //   CardItem("morgan_gottar", 0, customMultiSelectionButtonController),
-                          //   CardItem("oggie_bar", 3, customMultiSelectionButtonController),
-                          //   CardItem("gottar_morgan", 2, customMultiSelectionButtonController),
-                          //
-                          // ],
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Card(
+                                shape: RoundedRectangleBorder(
+                                  side: BorderSide(color: Colors.blue, width: 1),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: InkWell(
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                                      child: Row(
+                                        children: const [
+                                          Text(
+                                            // (specialities.isEmpty? "Select Specialities": "Selected Specialities"),
+                                            "Select/Selected Specialities",
+                                            style: TextStyle(fontSize: 18),
+                                          ),
+                                          Expanded(child: SizedBox(height: 1,),),
+                                          Icon(Icons.arrow_drop_down, size: 30, color: Colors.blue,),
+                                        ],
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (ctx) {
+                                          return AlertDialog(
+                                            title: Text('Select Items'),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    specialities.clear();
+
+                                                    for(int i=0; i<customController.selectedItems.length; i++) {
+                                                      specialities.add(
+                                                        cardItem(
+                                                          customController.selectedItems[i],
+                                                          customController.selectedItemsIndexID[i],
+                                                          customController,
+                                                        ),
+                                                      );
+                                                    }
+
+                                                  });
+
+                                                  Navigator.pop(context);
+
+                                                },
+                                                child: Text('Ok'),
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
+                                                  // multiSelectionButtonController.selectedItems.clear();
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text('Cancel'),
+                                              ),
+
+                                            ],
+                                            content: Container(
+                                              width: 250,
+                                              height: 300,
+                                              // child: CustomMultiSelectionButton(
+                                              //   multiSelectionItems: ["Item 1", "Item 2", "Item 3"],
+                                              //   multiSelectionButtonController: customController,
+                                              // ),
+                                              child: Column(
+                                                children: <Widget>[
+                                                  itemBuilder(0),
+                                                  itemBuilder(1),
+                                                  itemBuilder(2),
+
+                                                ],
+                                              ),
+
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    }
+
+                                )
+                            ),
+                            Wrap(
+                              direction: Axis.horizontal,
+                              children: specialities,
+
+                            ),
+                          ],
                         ),
                       ),
 
@@ -548,42 +663,6 @@ class _ConsultantRegistrationScreenState
                         height: 20,
                       ),
 
-
-                      // Container(
-                      //   color: Colors.transparent,
-                      //   child: Column(
-                      //     children: [
-                      //       MultiSelectDialogField(
-                      //         items: _items.map((e) => MultiSelectItem(e, e.name)).toList(),
-                      //         title: Text("Animals"),
-                      //         selectedColor: Colors.blue,
-                      //         decoration: BoxDecoration(
-                      //           color: Colors.blue.withOpacity(0.1),
-                      //           borderRadius: BorderRadius.all(Radius.circular(40)),
-                      //           border: Border.all(
-                      //             color: Colors.blue,
-                      //             width: 2,
-                      //           ),
-                      //         ),
-                      //         buttonIcon: Icon(
-                      //           Icons.pets,
-                      //           color: Colors.blue,
-                      //         ),
-                      //         buttonText: Text(
-                      //           "Favorite Animals",
-                      //           style: TextStyle(
-                      //             color: Colors.blue[800],
-                      //             fontSize: 16,
-                      //           ),
-                      //         ),
-                      //         onConfirm: (results) {
-                      //           // _selectedAnimals = results;
-                      //           // print(results.toString());
-                      //         },
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
 
                       TextButton(
                         onPressed: () {
@@ -604,8 +683,8 @@ class _ConsultantRegistrationScreenState
                           print(controllerNID.text);
                           print(controllerPresentAddress.text);
                           print(controllerPermanentAddress.text);
-                          // print(multiSelectionButtonController.selectedItems);
-                          // print(multiSelectionButtonController.selectedItemsIndices);
+                          print(customController.selectedItems);
+
                         },
                         child: const Text("Get"),
                       ),
@@ -667,4 +746,12 @@ class BuildTextFormField extends StatelessWidget {
       ),
     );
   }
+}
+
+
+class itemStateInfo {
+  dynamic selectionItem;
+  bool isSelected;
+  itemStateInfo(
+      {required this.selectionItem, required this.isSelected});
 }
