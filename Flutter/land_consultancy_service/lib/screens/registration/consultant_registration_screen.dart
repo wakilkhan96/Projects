@@ -772,9 +772,10 @@ class CustomMultiSelectionButtonController {
 
 class MultiSelectionItemState {
   dynamic selectionItem;
+  int selectionItemIndexID;
   bool isSelected;
   MultiSelectionItemState(
-      {required this.selectionItem, required this.isSelected});
+      {required this.selectionItem, required this.selectionItemIndexID, required this.isSelected});
 }
 
 class CustomMultiSelectionButton extends StatefulWidget {
@@ -809,6 +810,7 @@ class _CustomMultiSelectionButtonState
       multiSelectionItemsStates.add(
         MultiSelectionItemState(
           selectionItem: multiSelectionItems[indexID],
+          selectionItemIndexID: indexID,
           isSelected: (multiSelectionButtonController.selectedItemsIndexID.contains(indexID)? true : false),
         ),
       );
