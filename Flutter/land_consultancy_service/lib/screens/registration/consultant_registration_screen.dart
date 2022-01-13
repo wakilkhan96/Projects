@@ -49,8 +49,10 @@ class _ConsultantRegistrationScreenState extends State<ConsultantRegistrationScr
   CustomRadioButtonsController radioButtonsController = CustomRadioButtonsController(null);
 
 
-  CustomMultiSelectionButtonController multiSelectionButtonController = CustomMultiSelectionButtonController();
+  CustomMultiSelectionButtonController customMultiSelectionButtonController = CustomMultiSelectionButtonController();
 
+
+  List<Widget> specialities = [];
 
 
   /* dynamic dropdown item button builder*/
@@ -76,6 +78,71 @@ class _ConsultantRegistrationScreenState extends State<ConsultantRegistrationScr
           }),
     );
   }
+
+  /* multi selected Items card builder*/
+  Widget multiSelectionSelectedItemCard(dynamic selectedItem, int selectedItemID, CustomMultiSelectionButtonController controller) {
+    return Card(
+      shape: RoundedRectangleBorder(
+        side: BorderSide(color: Colors.blue, width: 1),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      color: Color.fromRGBO(228, 240, 250, 1),
+      elevation: 2,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+        child: Wrap(
+          children: [
+            InkWell(
+              child: const Icon(Icons.clear, size: 20,),
+              onTap: () {
+                print("tapped_on_clear_icon");
+                // print(controller.selectedItems);
+                final index = controller.selectedItemsIndexID.indexWhere((element) =>
+                element == selectedItemID);
+                if (index >= 0) {
+                  controller.selectedItems.removeAt(index);
+                  controller.selectedItemsIndexID.removeAt(index);
+
+                  specialities.removeAt(index);
+
+                  setState(() {
+                    // specialities.clear();
+                    // for(int i=0; i<customMultiSelectionButtonController.selectedItems.length; i++) {
+                    //   specialities.add(
+                    //     CardItem(
+                    //         customMultiSelectionButtonController.selectedItems[i],
+                    //         customMultiSelectionButtonController.selectedItemsIndices[i],
+                    //         customMultiSelectionButtonController
+                    //     ),
+                    //   );
+                    //
+                    // }
+                  });
+                }
+
+              },
+              // splashColor: Color.fromRGBO(229, 240, 250, 1),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            Text(
+              selectedItem.toString(),
+              style: TextStyle(
+                fontSize: 17,
+              ),
+            ),
+            SizedBox(
+              width: 10,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -284,47 +351,118 @@ class _ConsultantRegistrationScreenState extends State<ConsultantRegistrationScr
                       ),
 
 
-                      Container(
-                        width: 100,
-                        height: 50,
-                        color: Colors.yellow,
-                        child: InkWell(
-                            onTap: () {
-                              showDialog(
-                                context: context,
-                                builder: (ctx) {
-                                  return AlertDialog(
-                                    title: Text('Select Items'),
-                                    actions: <Widget>[
-                                      TextButton(
-                                        onPressed: () {
-
-                                        },
-                                        child: Text('OK'),
+                      /* Specialities field*/
+                      InputDecorator(
+                        decoration: InputDecoration(
+                          labelText: "Specialities",
+                          // errorText: "errorText",
+                          // floatingLabelBehavior: FloatingLabelBehavior.always,
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 14, horizontal: 10),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: const BorderSide(
+                              color: Colors.blue,
+                            ),
+                          ),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Card(
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(color: Colors.blue, width: 1),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: InkWell(
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                                  child: Row(
+                                    children: const [
+                                      Text(
+                                        // (specialities.isEmpty? "Select Specialities": "Selected Specialities"),
+                                        "Select/Selected Specialities",
+                                        style: TextStyle(fontSize: 18),
                                       ),
-                                      TextButton(
-                                        onPressed: () {
-                                          multiSelectionButtonController.selectedItems.clear();
-                                        },
-                                        child: Text('Cancel'),
-                                      ),
-
+                                      Expanded(child: SizedBox(height: 1,),),
+                                      Icon(Icons.arrow_drop_down, size: 30, color: Colors.blue,),
                                     ],
-                                    content: Container(
-                                      width: 250,
-                                      height: 300,
-                                      child: CustomMultiSelectionButton(
-                                        multiSelectionItems: ["Item 1", "Item 2", "Item 3"],
-                                        multiSelectionButtonController: multiSelectionButtonController,
-                                      ),
-                                    ),
+                                  ),
+                                ),
+                                onTap: () {
+
+                                  customMultiSelectionButtonController.temporarySelectedItems = List.from(customMultiSelectionButtonController.selectedItems);
+                                  customMultiSelectionButtonController.temporaryselectedItemsIndexID = List.from(customMultiSelectionButtonController.selectedItemsIndexID);
+
+                                  showDialog(
+                                    context: context,
+                                    builder: (ctx) {
+                                      return AlertDialog(
+                                        title: Text('Select Items'),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                specialities.clear();
+
+                                                customMultiSelectionButtonController.selectedItems = List.from(customMultiSelectionButtonController.temporarySelectedItems);
+                                                customMultiSelectionButtonController.selectedItemsIndexID = List.from(customMultiSelectionButtonController.temporaryselectedItemsIndexID);
+
+                                                for(int i=0; i<customMultiSelectionButtonController.selectedItems.length; i++) {
+                                                  specialities.add(
+                                                    multiSelectionSelectedItemCard(
+                                                      customMultiSelectionButtonController.selectedItems[i],
+                                                      customMultiSelectionButtonController.selectedItemsIndexID[i],
+                                                      customMultiSelectionButtonController,
+                                                    ),
+                                                  );
+                                                }
+
+                                              });
+
+                                              Navigator.pop(context);
+
+                                            },
+                                            child: Text('Ok'),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              // multiSelectionButtonController.selectedItems.clear();
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text('Cancel'),
+                                          ),
+
+                                        ],
+                                        content: Container(
+                                          width: 250,
+                                          height: 300,
+                                          child: CustomMultiSelectionButton(
+                                            multiSelectionItems: ["Item 1", "Item 2", "Item 3"],
+                                            multiSelectionButtonController: customMultiSelectionButtonController,
+                                          ),
+                                        ),
+                                      );
+                                    },
                                   );
-                                },
-                              );
-                            }
+                                }
+
+                              )
+                            ),
+                            Wrap(
+                              direction: Axis.horizontal,
+                              children: specialities,
+                              // children: [
+                              //   CardItem("froggie_morgan_gottar", 1, customMultiSelectionButtonController),
+                              //   CardItem("morgan_gottar", 0, customMultiSelectionButtonController),
+                              //   CardItem("oggie_bar", 3, customMultiSelectionButtonController),
+                              //   CardItem("gottar_morgan", 2, customMultiSelectionButtonController),
+                              //
+                              // ],
+                            ),
+                          ],
                         ),
                       ),
-
 
 
 
@@ -343,8 +481,9 @@ class _ConsultantRegistrationScreenState extends State<ConsultantRegistrationScr
                           print(controllerWorkplace.text);
                           print(controllerPresentAddress.text);
                           print(controllerPermanentAddress.text);
-                          print(multiSelectionButtonController.selectedItems);
-                          print(multiSelectionButtonController.selectedItemsIndices);
+                          print(customMultiSelectionButtonController.selectedItems);
+                          // print(customMultiSelectionButtonController.selectedItemsIndexID)5
+                          // 4;
                         },
                         child: const Text("Get"),
                       ),
@@ -624,7 +763,10 @@ class DropDownController {
 
 class CustomMultiSelectionButtonController {
   List<dynamic> selectedItems = [];
-  List<int> selectedItemsIndices = [];
+  List<int> selectedItemsIndexID = [];
+
+  List<dynamic> temporarySelectedItems = [];
+  List<int> temporaryselectedItemsIndexID = [];
 // CustomMultiSelectionButtonController(this.selectedItems);
 }
 
@@ -663,50 +805,54 @@ class _CustomMultiSelectionButtonState
     required this.multiSelectionItems,
     required this.multiSelectionButtonController,
   }) {
-    for (int index=0; index < multiSelectionItems.length; index++) {
+    for (int indexID=0; indexID < multiSelectionItems.length; indexID++) {
       multiSelectionItemsStates.add(
         MultiSelectionItemState(
-          selectionItem: multiSelectionItems[index],
-          isSelected: (multiSelectionButtonController.selectedItemsIndices.contains(index)? true : false),
+          selectionItem: multiSelectionItems[indexID],
+          isSelected: (multiSelectionButtonController.selectedItemsIndexID.contains(indexID)? true : false),
         ),
       );
     }
   }
 
-  Widget multiSelectionItemBuilder(int multiSelectionItemIndex) {
+  Widget multiSelectionItemBuilder(int multiSelectionItemIndexID) {
+
+    // multiSelectionButtonController.temporarySelectedItems = List.from(multiSelectionButtonController.selectedItems);
+    // multiSelectionButtonController.temporaryselectedItemsIndexID = List.from(multiSelectionButtonController.selectedItemsIndexID);
+
     return Column(
       children: <Widget>[
         Row(
           // mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Checkbox(
-                value: multiSelectionItemsStates[multiSelectionItemIndex].isSelected,
+                value: multiSelectionItemsStates[multiSelectionItemIndexID].isSelected,
                 onChanged: (value) {
                   setState(() {
-                    multiSelectionItemsStates[multiSelectionItemIndex]
-                        .isSelected =
-                    !multiSelectionItemsStates[multiSelectionItemIndex]
-                        .isSelected;
-                    if(multiSelectionButtonController.selectedItemsIndices
-                        .contains(multiSelectionItemIndex)) {
-                      multiSelectionButtonController.selectedItems
-                          .remove(multiSelectionItemsStates[multiSelectionItemIndex].selectionItem);
-                      multiSelectionButtonController.selectedItemsIndices
-                          .remove(multiSelectionItemIndex);
+                    multiSelectionItemsStates[multiSelectionItemIndexID].isSelected = !multiSelectionItemsStates[multiSelectionItemIndexID].isSelected;
+
+                    if(multiSelectionItemsStates[multiSelectionItemIndexID].isSelected) {
+                      multiSelectionButtonController.temporarySelectedItems
+                          .add(multiSelectionItemsStates[multiSelectionItemIndexID].selectionItem);
+                      multiSelectionButtonController.temporaryselectedItemsIndexID
+                          .add(multiSelectionItemIndexID);
                     }
                     else {
-                      multiSelectionButtonController.selectedItems
-                          .add(multiSelectionItemsStates[multiSelectionItemIndex].selectionItem);
-                      multiSelectionButtonController.selectedItemsIndices
-                          .add(multiSelectionItemIndex);
+                      final index = multiSelectionButtonController.temporaryselectedItemsIndexID.indexWhere((element) =>
+                      element == multiSelectionItemIndexID);
+                      if (index >= 0) {
+                        multiSelectionButtonController.temporarySelectedItems.removeAt(index);
+                        multiSelectionButtonController.temporaryselectedItemsIndexID.removeAt(index);
+                      }
                     }
 
                   });
+
                 }
             ),
             const Padding(padding: EdgeInsets.only(left: 0.0)),
             Text(
-              multiSelectionItemsStates[multiSelectionItemIndex]
+              multiSelectionItemsStates[multiSelectionItemIndexID]
                   .selectionItem
                   .toString(),
               style: const TextStyle(
@@ -733,3 +879,62 @@ class _CustomMultiSelectionButtonState
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+Temporary
+
+//show select dialogue option
+Container(
+  width: 100,
+  height: 50,
+  color: Colors.yellow,
+  child: InkWell(
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (ctx) {
+            return AlertDialog(
+              title: Text('Select Items'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+
+                  },
+                  child: Text('OK'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    multiSelectionButtonController.selectedItems.clear();
+                  },
+                  child: Text('Cancel'),
+                ),
+
+              ],
+              content: Container(
+                width: 250,
+                height: 300,
+                child: CustomMultiSelectionButton(
+                  multiSelectionItems: ["Item 1", "Item 2", "Item 3"],
+                  multiSelectionButtonController: multiSelectionButtonController,
+                ),
+              ),
+            );
+          },
+        );
+      }
+  ),
+),
+*/
