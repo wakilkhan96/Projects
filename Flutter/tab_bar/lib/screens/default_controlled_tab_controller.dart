@@ -12,7 +12,7 @@ class DefaultControlledTabControllerPageState extends State<DefaultControlledTab
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 4,
       child: Scaffold(
         appBar: AppBar(
           title: const Text(
@@ -49,7 +49,7 @@ class DefaultControlledTabControllerPageState extends State<DefaultControlledTab
 
               // the tab bar with two items
               Container(
-                height: 55,
+                height: 48,
                 child: AppBar(
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
@@ -66,6 +66,14 @@ class DefaultControlledTabControllerPageState extends State<DefaultControlledTab
                       Tab(
                         icon: Icon(
                           Icons.directions_car,
+                        ),
+                      ),
+                      Tab(
+                        icon: Icon(Icons.directions_boat),
+                      ),
+                      Tab(
+                        icon: Icon(
+                          Icons.directions_railway,
                         ),
                       ),
                     ],
@@ -94,6 +102,26 @@ class DefaultControlledTabControllerPageState extends State<DefaultControlledTab
                       child: const Center(
                         child: Text(
                           'Car',
+                        ),
+                      ),
+                    ),
+
+                    // third tab bar view widget
+                    Container(
+                      color: Colors.tealAccent,
+                      child: const Center(
+                        child: Text(
+                          'Boat',
+                        ),
+                      ),
+                    ),
+
+                    // fourth tab bar view widget
+                    Container(
+                      color: Colors.tealAccent,
+                      child: const Center(
+                        child: Text(
+                          'Train',
                         ),
                       ),
                     ),
