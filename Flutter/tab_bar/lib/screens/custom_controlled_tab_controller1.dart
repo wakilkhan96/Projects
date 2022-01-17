@@ -12,10 +12,16 @@ const List<Tab> tabs = <Tab>[
   Tab(text: 'Zeroth'),
   Tab(text: 'First'),
   Tab(text: 'Second'),
+  Tab(text: 'Third'),
 ];
 
 class _CustomControlledTabController1State
     extends State<CustomControlledTabController1> {
+
+  List<bool> _isDisabled = [false, true, true];
+  List<bool> _isComplete = [false, false, false];
+  int currentTab = 0;
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -26,11 +32,7 @@ class _CustomControlledTabController1State
         builder: (BuildContext context) {
           final TabController tabController = DefaultTabController.of(context)!;
           tabController.addListener(() {
-            if (!tabController.indexIsChanging) {
-              // Your code goes here.
-              // To get index of current tab use tabController.index
-              // print(tabController.index);
-            }
+
           });
           return Scaffold(
             appBar: AppBar(
@@ -40,14 +42,52 @@ class _CustomControlledTabController1State
             ),
             body: TabBarView(
               physics: NeverScrollableScrollPhysics(),
-              children: tabs.map((Tab tab) {
-                return Center(
-                  child: Text(
-                    '${tab.text!} Tab',
-                    style: Theme.of(context).textTheme.headline5,
+              // children: tabs.map((Tab tab) {
+              //   return Center(
+              //     child: Text(
+              //       '${tab.text!} Tab',
+              //       style: Theme.of(context).textTheme.headline5,
+              //     ),
+              //   );
+              // }).toList(),
+              children: [
+                Center(
+                  child: ElevatedButton(
+                      onPressed: () {
+                        tabController.animateTo(1);
+                      },
+                      child: Text(tabs[0].text.toString()+" to "+tabs[1].text.toString()),
                   ),
-                );
-              }).toList(),
+                ),
+
+                Center(
+                  child: ElevatedButton(
+                      onPressed: () {
+                        tabController.animateTo(2);
+                      },
+                    child: Text(tabs[1].text.toString()+" to "+tabs[2].text.toString()),
+                  ),
+                ),
+
+                Center(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      tabController.animateTo(3);
+                    },
+                    child: Text(tabs[2].text.toString()+" to "+tabs[3].text.toString()),
+                  ),
+                ),
+
+                Center(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      print("Done");
+                    },
+                    child: Text(tabs[3].text.toString()+" to "+tabs[3].text.toString()),
+                  ),
+                ),
+
+              ],
             ),
           );
         },

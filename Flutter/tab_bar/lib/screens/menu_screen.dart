@@ -71,12 +71,12 @@ class MenuScreen extends StatelessWidget {
                   child: Text(
                     "Custom Controlled Tab Controller 2",
                     style: TextStyle(fontSize: 20),
-              
+
                   ),
                 ),
               ),
               SizedBox(height: 20,),
-              
+
               OutlinedButton(
                 style: ButtonStyle(),
                 onPressed: () {
@@ -90,12 +90,12 @@ class MenuScreen extends StatelessWidget {
                   child: Text(
                     "Custom Controlled Tab Controller 3",
                     style: TextStyle(fontSize: 20),
-              
+
                   ),
                 ),
               ),
               SizedBox(height: 20,),
-              
+
               OutlinedButton(
                 style: ButtonStyle(),
                 onPressed: () {
@@ -109,7 +109,7 @@ class MenuScreen extends StatelessWidget {
                   child: Text(
                     "woolha.com Tab layout example",
                     style: TextStyle(fontSize: 20),
-              
+
                   ),
                 ),
               ),

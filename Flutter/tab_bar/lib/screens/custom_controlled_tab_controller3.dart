@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 
+class TabState {
+  bool isComplete;
+  bool isDisabled;
+  TabState({required this.isComplete, required this.isDisabled});
+}
+
 
 class CustomControlledTabController3 extends StatefulWidget {
   const CustomControlledTabController3({Key? key}) : super(key: key);
@@ -14,26 +20,31 @@ class _CustomControlledTabController3State
 
   late TabController tabController;
 
-  List<bool> _isDisabled = [false, true, true];
-  List<bool> _isComplete = [false, false, false];
   int currentTab = 0;
 
+  bool tab1IsComplete = false, tab2IsComplete = false, tab3IsComplete = false;
+  List <TabState> tabIndex = [
+    TabState(isComplete: false, isDisabled: false),
+    TabState(isComplete: false, isDisabled: true),
+    TabState(isComplete: false, isDisabled: true),
+  ];
 
   @override
   void initState() {
     super.initState();
     tabController = TabController(initialIndex: 0, length: 3, vsync: this);
     tabController.addListener(() {
-      if(!_isComplete[currentTab] || _isDisabled[tabController.index]) {
+      if(tabController.index < currentTab) {
+        currentTab = tabController.index;
         tabController.animateTo(currentTab);
       }
-      else if(tabController.index == currentTab+1) {
-        tabController.animateTo(currentTab++);
+      else if(tabIndex[currentTab].isComplete && !tabIndex[tabController.index].isDisabled) {
+        currentTab = tabController.index;
+        tabController.animateTo(currentTab);
       }
       else {
-          tabController.animateTo(currentTab);
+        tabController.animateTo(currentTab);
       }
-
     });
 
   }
@@ -107,14 +118,14 @@ class _CustomControlledTabController3State
                         SizedBox(height: 20,),
                         OutlinedButton(
                           onPressed: () {
-                            _isComplete[currentTab] = true;
-                            if(currentTab+1 < tabController.length) _isDisabled[currentTab+1] = false;
+                            tabIndex[0].isComplete = true;
                           },
                           child: Text("Make Tab 1 complete"),
                         ),
                         SizedBox(height: 40,),
                         ElevatedButton(
                           onPressed: () {
+                            tabIndex[1].isDisabled = false;
                             tabController.animateTo(1);
                           },
                           child: Text("It's cloudy here"),
@@ -130,14 +141,14 @@ class _CustomControlledTabController3State
                         SizedBox(height: 20,),
                         OutlinedButton(
                           onPressed: () {
-                            _isComplete[currentTab] = true;
-                            if(currentTab+1 < tabController.length) _isDisabled[currentTab+1] = false;
+                            tabIndex[1].isComplete = true;
                           },
                           child: Text("Make Tab 2 complete"),
                         ),
                         SizedBox(height: 40,),
                         ElevatedButton(
                           onPressed: () {
+                            tabIndex[2].isDisabled = false;
                             tabController.animateTo(2);
                           },
                           child: Text("It's cloudy here"),
@@ -153,15 +164,15 @@ class _CustomControlledTabController3State
                         SizedBox(height: 20,),
                         OutlinedButton(
                           onPressed: () {
-                            _isComplete[currentTab] = true;
-                            if(currentTab+1 < tabController.length) _isDisabled[currentTab+1] = false;
+                            tabIndex[2].isComplete = true;
                           },
                           child: Text("Make Tab 3 complete"),
                         ),
                         SizedBox(height: 40,),
                         ElevatedButton(
                           onPressed: () {
-                            tabController.animateTo(0);
+                            print("done");
+                            // tabController.animateTo(0);
                           },
                           child: Text("It's cloudy here"),
                         ),
