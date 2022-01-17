@@ -20,7 +20,7 @@ class _TabLayoutExampleState extends State<TabLayoutExample> with TickerProvider
   void initState() {
     super.initState();
     _tabController = TabController(length: 6, vsync: this);
-    _tabController.animateTo(2);
+    // _tabController.animateTo(2);
   }
 
   static const List<Tab> _tabs = [
