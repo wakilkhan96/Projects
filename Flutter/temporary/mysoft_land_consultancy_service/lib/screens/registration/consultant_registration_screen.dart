@@ -8,7 +8,6 @@ import 'package:land_consultancy_service/src/custom_date_time_utility.dart';
 
 enum Gender { Male, Female, Other }
 
-
 class CustomController {
   // List<dynamic> selectedItems = [];
   // List<int> selectedItemsIndices = [];
@@ -18,7 +17,7 @@ class CustomController {
 
   List<dynamic> getSelectedItemsValues() {
     List<dynamic> selectedItemsValues = [];
-    for(var eachItem in selectedItems) {
+    for (var eachItem in selectedItems) {
       selectedItemsValues.add(eachItem.itemValue);
     }
     return selectedItemsValues;
@@ -26,18 +25,12 @@ class CustomController {
 
   List<dynamic> getSelectedItemsIndices() {
     List<dynamic> selectedItemsIndices = [];
-    for(var eachItem in selectedItems) {
+    for (var eachItem in selectedItems) {
       selectedItemsIndices.add(eachItem.itemIndex);
     }
     return selectedItemsIndices;
   }
-
 }
-
-
-
-
-
 
 class ConsultantRegistrationScreen extends StatefulWidget {
   static String pageID = 'consultant_registration_screen';
@@ -76,116 +69,78 @@ class _ConsultantRegistrationScreenState
   String selectedMonthValue = "January";
   int selectedYearValue = 2000;
 
+  int selectedExperience = 0;
+  List<int> experienceYear = [
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+    11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+    21, 22, 23, 24, 25, 26, 27, 28, 29, 30 ];
+
   CustomDateTimeUtility dateTimeUtility = CustomDateTimeUtility();
 
-
   Gender selectedGender = Gender.Male;
-  
+
   CustomController customController = CustomController();
 
   List<Widget> specialities = [];
-  
-  List<itemStateInfo> itemStates = [];
+
+  List<ItemStateInfo> itemStates = [];
 
   _ConsultantRegistrationScreenState() {
-
-    itemStates.add(itemStateInfo(selectionItem: "item 1", isSelected: false),);
-    itemStates.add(itemStateInfo(selectionItem: "item 2", isSelected: false),);
-    itemStates.add(itemStateInfo(selectionItem: "item 3", isSelected: false),);
-
-    for(int i=0; i<itemStates.length; i++) {
-      print(itemStates[i].selectionItem+ " = "+itemStates[i].isSelected.toString());
-
-    }
-
-
-  }
-
-  // Widget itemBuilder(int index) {
-  //   return StatefulBuilder(
-  //       builder: (BuildContext context, StateSetter setState) {
-  //         return Row(
-  //           children: <Widget>[
-  //             Checkbox(
-  //                 value: itemStates[index].isSelected,
-  //                 onChanged: (value) {
-  //                   setState(() {
-  //                     itemStates[index].isSelected = !itemStates[index].isSelected;
-  //
-  //                     if(itemStates[index].isSelected) {
-  //                       customController.selectedItems
-  //                           .add(itemStates[index].selectionItem);
-  //                       customController.selectedItemsIndexID
-  //                           .add(index);
-  //                     }
-  //                     else {
-  //                       customController.selectedItems
-  //                           .remove(itemStates[index].selectionItem);
-  //                       customController.selectedItemsIndexID
-  //                           .remove(index);
-  //                     }
-  //
-  //                     // print(customController.selectedItems);
-  //
-  //                   });
-  //
-  //                 }
-  //             ),
-  //             const Padding(padding: EdgeInsets.only(left: 0.0)),
-  //             Text(
-  //               itemStates[index]
-  //                   .selectionItem
-  //                   .toString(),
-  //               style: const TextStyle(
-  //                 fontSize: 16,
-  //               ),
-  //             ),
-  //           ],
-  //         );
-  //       });
-  // }
-  Widget itemBuilder(int index) {
-    return Row(
-      children: <Widget>[
-        Checkbox(
-            value: itemStates[index].isSelected,
-            onChanged: (value) {
-              setState(() {
-                itemStates[index].isSelected = !itemStates[index].isSelected;
-
-                if(itemStates[index].isSelected) {
-                  customController.selectedItems
-                      .add(itemStates[index].selectionItem);
-                  customController.selectedItemsIndexID
-                      .add(index);
-                }
-                else {
-                  customController.selectedItems
-                      .remove(itemStates[index].selectionItem);
-                  customController.selectedItemsIndexID
-                      .remove(index);
-                }
-
-                // print(customController.selectedItems);
-
-              });
-
-            }
-        ),
-        const Padding(padding: EdgeInsets.only(left: 0.0)),
-        Text(
-          itemStates[index]
-              .selectionItem
-              .toString(),
-          style: const TextStyle(
-            fontSize: 16,
-          ),
-        ),
-      ],
+    itemStates.add(
+      ItemStateInfo(selectionItem: "item 1", isSelected: false),
     );
+    itemStates.add(
+      ItemStateInfo(selectionItem: "item 2", isSelected: false),
+    );
+    itemStates.add(
+      ItemStateInfo(selectionItem: "item 3", isSelected: false),
+    );
+
+    // for (int i = 0; i < itemStates.length; i++) {
+    //   print(itemStates[i].selectionItem +
+    //       " = " +
+    //       itemStates[i].isSelected.toString());
+    // }
   }
 
-  Widget cardItem(dynamic selectedItem, int selectedItemIndex, CustomController controller) {
+  Widget itemBuilder(int index) {
+    return StatefulBuilder(
+        builder: (BuildContext context, StateSetter setState) {
+      return Row(
+        children: <Widget>[
+          Checkbox(
+              value: itemStates[index].isSelected,
+              onChanged: (value) {
+                setState(() {
+                  itemStates[index].isSelected = !itemStates[index].isSelected;
+
+                  if (itemStates[index].isSelected) {
+                    customController.selectedItems
+                        .add(itemStates[index].selectionItem);
+                    customController.selectedItemsIndexID.add(index);
+                  } else {
+                    customController.selectedItems
+                        .remove(itemStates[index].selectionItem);
+                    customController.selectedItemsIndexID.remove(index);
+                  }
+
+                  // print(customController.selectedItems);
+                });
+              }),
+          const Padding(padding: EdgeInsets.only(left: 0.0)),
+          Text(
+            itemStates[index].selectionItem.toString(),
+            style: const TextStyle(
+              fontSize: 16,
+            ),
+          ),
+        ],
+      );
+    });
+  }
+
+  Widget cardItem(dynamic selectedItem, int selectedItemIndex,
+      CustomController controller) {
     return Card(
       shape: RoundedRectangleBorder(
         side: BorderSide(color: Colors.blue, width: 1),
@@ -198,24 +153,29 @@ class _ConsultantRegistrationScreenState
         child: Wrap(
           children: [
             InkWell(
-              child: const Icon(Icons.clear, size: 20,),
+              child: const Icon(
+                Icons.clear,
+                size: 20,
+              ),
               onTap: () {
                 print("tapped_on_clear_icon");
                 // print(controller.selectedItems);
                 controller.selectedItems.remove(selectedItem);
                 controller.selectedItemsIndexID.remove(selectedItemIndex);
+                itemStates[selectedItemIndex].isSelected = false;
 
                 setState(() {
                   specialities.clear();
-                  for(int i=0; i<customController.selectedItems.length; i++) {
+                  for (int i = 0;
+                      i < customController.selectedItems.length;
+                      i++) {
                     specialities.add(
                       cardItem(
-                          customController.selectedItems[i],
-                          customController.selectedItemsIndexID[i],
-                          customController,
+                        customController.selectedItems[i],
+                        customController.selectedItemsIndexID[i],
+                        customController,
                       ),
                     );
-
                   }
                 });
               },
@@ -240,7 +200,6 @@ class _ConsultantRegistrationScreenState
       ),
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -271,11 +230,9 @@ class _ConsultantRegistrationScreenState
                         height: 40,
                       ),
 
-
                       const SizedBox(
                         height: 20,
                       ),
-
 
                       const SizedBox(
                         height: 5,
@@ -299,10 +256,14 @@ class _ConsultantRegistrationScreenState
                           children: [
                             Container(
                               width: 110,
+                              height: 40,
+
                               padding: EdgeInsets.only(left: 15),
                               decoration: BoxDecoration(
-                                  color: Colors.black12,
-                                  borderRadius: BorderRadius.circular(5)),
+                                // color: Colors.black12,
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(color: Colors.blue,),
+                              ),
                               child: DropdownButtonHideUnderline(
                                 child: DropdownButton<int>(
                                     hint: Text("Select"),
@@ -333,10 +294,14 @@ class _ConsultantRegistrationScreenState
                             ),
                             Container(
                               width: 130,
+                              height: 40,
+
                               padding: EdgeInsets.only(left: 15),
                               decoration: BoxDecoration(
-                                  color: Colors.black12,
-                                  borderRadius: BorderRadius.circular(5)),
+                                // color: Colors.black12,
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(color: Colors.blue,),
+                              ),
                               child: DropdownButtonHideUnderline(
                                 child: DropdownButton<String>(
                                     hint: Text("Select"),
@@ -367,10 +332,14 @@ class _ConsultantRegistrationScreenState
                             ),
                             Container(
                               width: 110,
+                              height: 40,
+
                               padding: EdgeInsets.only(left: 15),
                               decoration: BoxDecoration(
-                                  color: Colors.black12,
-                                  borderRadius: BorderRadius.circular(5)),
+                                // color: Colors.black12,
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(color: Colors.blue,),
+                              ),
                               child: DropdownButtonHideUnderline(
                                 child: DropdownButton<int>(
                                     hint: Text("Select"),
@@ -403,15 +372,187 @@ class _ConsultantRegistrationScreenState
                       const SizedBox(
                         height: 20,
                       ),
-                      BuildTextFormField(
-                        labelText: "Experience",
-                        controller: controllerExperience,
-                        keyboardType: TextInputType.text,
-                        filter: <TextInputFormatter>[
-                          FilteringTextInputFormatter.allow(
-                              RegExp(r'[a-zA-Z1-9/.-]')),
-                        ],
+
+                      // BuildTextFormField(
+                      //   labelText: "Experience",
+                      //   controller: controllerExperience,
+                      //   keyboardType: TextInputType.text,
+                      //   filter: <TextInputFormatter>[
+                      //     FilteringTextInputFormatter.allow(
+                      //         RegExp(r'[a-zA-Z1-9/.-]')),
+                      //   ],
+                      // ),
+
+                      InputDecorator(
+                        decoration: InputDecoration(
+                          labelText: "Specialities",
+                          // errorText: "errorText",
+                          // floatingLabelBehavior: FloatingLabelBehavior.always,
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 14, horizontal: 10),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: const BorderSide(
+                              color: Colors.blue,
+                            ),
+                          ),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Card(
+                                shape: RoundedRectangleBorder(
+                                  side:
+                                  BorderSide(color: Colors.blue, width: 1),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: InkWell(
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 5),
+                                      child: Row(
+                                        children: const [
+                                          Text(
+                                            // (specialities.isEmpty? "Select Specialities": "Selected Specialities"),
+                                            "Select/Selected Specialities",
+                                            style: TextStyle(fontSize: 18),
+                                          ),
+                                          Expanded(
+                                            child: SizedBox(
+                                              height: 1,
+                                            ),
+                                          ),
+                                          Icon(
+                                            Icons.arrow_drop_down,
+                                            size: 30,
+                                            color: Colors.blue,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    onTap: () async {
+                                      await showDialog(
+                                        context: context,
+                                        builder: (ctx) {
+                                          return AlertDialog(
+                                            title: Text('Select Items'),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    specialities.clear();
+
+                                                    for (int i = 0;
+                                                    i <
+                                                        customController
+                                                            .selectedItems
+                                                            .length;
+                                                    i++) {
+                                                      specialities.add(
+                                                        cardItem(
+                                                          customController
+                                                              .selectedItems[i],
+                                                          customController
+                                                              .selectedItemsIndexID[i],
+                                                          customController,
+                                                        ),
+                                                      );
+                                                    }
+                                                  });
+
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text('Ok'),
+                                              ),
+                                            ],
+                                            content: Container(
+                                              width: 250,
+                                              height: 300,
+                                              // child: CustomMultiSelectionButton(
+                                              //   multiSelectionItems: ["Item 1", "Item 2", "Item 3"],
+                                              //   multiSelectionButtonController: customController,
+                                              // ),
+                                              child: Column(
+                                                children: <Widget>[
+                                                  itemBuilder(0),
+                                                  itemBuilder(1),
+                                                  itemBuilder(2),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      );
+
+                                    })),
+                            Wrap(
+                              direction: Axis.horizontal,
+                              children: specialities,
+                            ),
+                          ],
+                        ),
                       ),
+
+                      const SizedBox(
+                        height: 20,
+                      ),
+
+                      InputDecorator(
+                        decoration: InputDecoration(
+                          labelText: "Experience",
+                          // errorText: "errorText",
+                          // floatingLabelBehavior: FloatingLabelBehavior.always,
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 10),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: const BorderSide(
+                              color: Colors.blue,
+                            ),
+                          ),
+                        ),
+                        child: Row(
+                          // mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: 220,
+                              height: 40,
+                              padding: EdgeInsets.only(left: 15),
+                              decoration: BoxDecoration(
+                                // color: Colors.black12,
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(color: Colors.blue,),
+                              ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<int>(
+                                  icon: Icon(Icons.arrow_drop_down, size: 30, color: Colors.blue,),
+                                  // alignment: AlignmentDirectional.center,
+                                    hint: Text("Select"),
+                                    value: selectedExperience,
+                                    items: experienceYear
+                                        .map((int value) {
+                                      return DropdownMenuItem<int>(
+                                        alignment: AlignmentDirectional.center,
+                                        value: value,
+                                        child: Text(value.toString()),
+                                      );
+                                    }).toList(),
+                                    onChanged: (newVal) {
+                                      // selected_item = newVal!;
+                                      setState(() {
+                                        selectedExperience = newVal!;
+                                      });
+                                    }),
+                              ),
+                            ),
+                            SizedBox(width: 60,),
+                            Text(
+                              " Years ", style: TextStyle(fontSize: 20, ),
+                            ),
+                          ],
+                        ),
+                      ),
+
                       const SizedBox(
                         height: 20,
                       ),
@@ -551,128 +692,22 @@ class _ConsultantRegistrationScreenState
                       //   controller: controllerConfirmPassword,
                       // ),
 
-                      InputDecorator(
-                        decoration: InputDecoration(
-                          labelText: "Specialities",
-                          // errorText: "errorText",
-                          // floatingLabelBehavior: FloatingLabelBehavior.always,
-                          contentPadding: const EdgeInsets.symmetric(
-                              vertical: 14, horizontal: 10),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(
-                              color: Colors.blue,
-                            ),
-                          ),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Card(
-                                shape: RoundedRectangleBorder(
-                                  side: BorderSide(color: Colors.blue, width: 1),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: InkWell(
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                                      child: Row(
-                                        children: const [
-                                          Text(
-                                            // (specialities.isEmpty? "Select Specialities": "Selected Specialities"),
-                                            "Select/Selected Specialities",
-                                            style: TextStyle(fontSize: 18),
-                                          ),
-                                          Expanded(child: SizedBox(height: 1,),),
-                                          Icon(Icons.arrow_drop_down, size: 30, color: Colors.blue,),
-                                        ],
-                                      ),
-                                    ),
-                                    onTap: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (ctx) {
-                                          return AlertDialog(
-                                            title: Text('Select Items'),
-                                            actions: <Widget>[
-                                              TextButton(
-                                                onPressed: () {
-                                                  setState(() {
-                                                    specialities.clear();
 
-                                                    for(int i=0; i<customController.selectedItems.length; i++) {
-                                                      specialities.add(
-                                                        cardItem(
-                                                          customController.selectedItems[i],
-                                                          customController.selectedItemsIndexID[i],
-                                                          customController,
-                                                        ),
-                                                      );
-                                                    }
-
-                                                  });
-
-                                                  Navigator.pop(context);
-
-                                                },
-                                                child: Text('Ok'),
-                                              ),
-                                              TextButton(
-                                                onPressed: () {
-                                                  // multiSelectionButtonController.selectedItems.clear();
-                                                  Navigator.pop(context);
-                                                },
-                                                child: Text('Cancel'),
-                                              ),
-
-                                            ],
-                                            content: Container(
-                                              width: 250,
-                                              height: 300,
-                                              // child: CustomMultiSelectionButton(
-                                              //   multiSelectionItems: ["Item 1", "Item 2", "Item 3"],
-                                              //   multiSelectionButtonController: customController,
-                                              // ),
-                                              child: Column(
-                                                children: <Widget>[
-                                                  itemBuilder(0),
-                                                  itemBuilder(1),
-                                                  itemBuilder(2),
-
-                                                ],
-                                              ),
-
-                                            ),
-                                          );
-                                        },
-                                      );
-                                    }
-
-                                )
-                            ),
-                            Wrap(
-                              direction: Axis.horizontal,
-                              children: specialities,
-
-                            ),
-                          ],
-                        ),
-                      ),
 
                       const SizedBox(
                         height: 20,
                       ),
 
-
                       TextButton(
                         onPressed: () {
+                          print("\n");
                           print(selectedDayValue.toString() +
                               " " +
                               selectedMonthValue.toString() +
                               " " +
                               selectedYearValue.toString());
                           // print(radioButtonsController.selectedItem);
-                          print(controllerExperience.text);
+                          print(selectedExperience);
                           print(controllerWorkplace.text);
                           if (selectedGender == Gender.Male)
                             print("Male");
@@ -684,7 +719,6 @@ class _ConsultantRegistrationScreenState
                           print(controllerPresentAddress.text);
                           print(controllerPermanentAddress.text);
                           print(customController.selectedItems);
-
                         },
                         child: const Text("Get"),
                       ),
@@ -748,10 +782,11 @@ class BuildTextFormField extends StatelessWidget {
   }
 }
 
-
-class itemStateInfo {
+class ItemStateInfo {
   dynamic selectionItem;
   bool isSelected;
-  itemStateInfo(
-      {required this.selectionItem, required this.isSelected});
+  ItemStateInfo({required this.selectionItem, required this.isSelected});
 }
+
+
+

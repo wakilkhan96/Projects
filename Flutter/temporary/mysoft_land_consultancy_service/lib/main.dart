@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:land_consultancy_service/screens/registration/consultant_registration_screen.dart';
+import 'package:land_consultancy_service/screens/registration/consultant_registration_screen_with_tab.dart';
 
 import "package:land_consultancy_service/TestMultiSelectListPage.dart";
 void main() => runApp(MyApp());
