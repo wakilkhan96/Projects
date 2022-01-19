@@ -1,3 +1,6 @@
+import 'dart:ffi';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
@@ -5,6 +8,8 @@ import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'dart:io';
 import 'dart:async';
 import 'package:land_consultancy_service/src/custom_date_time_utility.dart';
+import 'package:land_consultancy_service/src/custom_drop_down_int.dart';
+import 'package:land_consultancy_service/src/custom_drop_down_string.dart';
 
 enum Gender { Male, Female, Other }
 
@@ -50,6 +55,7 @@ class _ConsultantRegistrationScreenState
   List<bool> _isComplete = [false, false, false, false];
 
   // final GlobalKey<_ConsultantRegistrationScreenState> parent = GlobalKey();
+  final formGlobalKey0 = GlobalKey<FormState>();
   final formGlobalKey1 = GlobalKey<FormState>();
   final formGlobalKey2 = GlobalKey<FormState>();
   final formGlobalKey3 = GlobalKey<FormState>();
@@ -75,43 +81,34 @@ class _ConsultantRegistrationScreenState
       TextEditingController(text: 'Address');
   final TextEditingController controllerWorkplace =
       TextEditingController(text: 'Workplace');
+
+  String levelOfEducationInputDecoratorLabelText = "";
+  List<String> levelOfEducation = ["Secondary", "Higher Secondary", "Diploma", "Bachelor/Honors", "Masters", "PhD"];
+  String selectedLevelOfEducation = "";
+  // List<String> examOrDegree = ["", "Higher Secondary", "Diploma", "Bachelor/Honors", "Masters", "PhD"];
+
+  final TextEditingController controllerInstituteName = TextEditingController(text: '');
+
+  String instituteLocationInputDecoratorLabelText = "";
+  List<String> instituteLocation = ["Dhaka", "Rajshahi", "Chittagong", "khulna",];
+  String selectedInstituteLocation = "";
+
+  String passingYearInputDecoratorLabelText = "";
+  List<int> passingYear = [2010, 2011, 2012];
+  int selectedPassingYear = 0;
+
+  String durationInputDecoratorLabelText = "";
+  List<int> duration = [3, 4, 5];
+  int selectedDuration = 0;
+
   int selectedDayValue = 1;
   String selectedMonthValue = "January";
   int selectedYearValue = 2000;
 
   int selectedExperience = 0;
   List<int> experienceYear = [
-    0,
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19,
-    20,
-    21,
-    22,
-    23,
-    24,
-    25,
-    26,
-    27,
-    28,
-    29,
-    30
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
+    17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30
   ];
 
   CustomDateTimeUtility dateTimeUtility = CustomDateTimeUtility();
@@ -148,6 +145,8 @@ class _ConsultantRegistrationScreenState
         tabController.animateTo(currentTab);
       }
     });
+
+
   }
 
   // @override
@@ -323,581 +322,620 @@ class _ConsultantRegistrationScreenState
                       ),
                     ),
                   ),
+
+
                   Expanded(
                     child: TabBarView(
                       controller: tabController,
                       physics: const NeverScrollableScrollPhysics(),
                       children: <Widget>[
-                        // 1
+
+                        // 0
                         Container(
                           // color: Colors.grey,
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                Form(
-                                  key: formGlobalKey1,
-                                  child: SingleChildScrollView(
-                                    child: Column(
-                                      children: [
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        const Text(
-                                          "Academic Qualification",
-                                          style: TextStyle(
-                                            fontFamily: 'OpenSans',
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w400,
-                                            color: Colors.black,
+                          child: Column(
+                            children: [
+
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              const Text(
+                                "Academic Qualification",
+                                style: TextStyle(
+                                  fontFamily: 'OpenSans',
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+
+                              Expanded(
+                                child: SingleChildScrollView(
+                                  child: Form(
+                                    key: formGlobalKey0,
+                                    child: SingleChildScrollView(
+                                      child: Column(
+                                        children: [
+
+                                          SizedBox(
+                                            height: 20,
                                           ),
-                                        ),
 
-                                        SizedBox(
-                                          height: 50,
-                                        ),
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              const Text("Add New", style: TextStyle(fontSize: 22, color: Colors.blue, fontWeight: FontWeight.w800),),
+                                              Text("Educational Qualification", style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w400),),
 
-                                        Container(
-                                          margin: EdgeInsets.all(0),
-                                          height: 50.0,
-                                          // width: 100.0,
-                                          decoration: BoxDecoration(
-                                            color: Colors.transparent,
-                                            boxShadow: const [
-                                              BoxShadow(
-                                                color: Colors.grey,
-                                                // blurRadius: 4,
-                                                // offset: Offset(0, 2),
+                                              SizedBox(height:  30,),
+                                              InputDecorator(
+                                                decoration: InputDecoration(
+                                                  // labelText: "Level of Education",
+                                                  labelText: levelOfEducationInputDecoratorLabelText,
+                                                  // errorText: "errorText",
+                                                  // floatingLabelBehavior: FloatingLabelBehavior.always,
+                                                  contentPadding: const EdgeInsets.symmetric(
+                                                      vertical: 0, horizontal: 5,
+                                                  ),
+                                                  border: OutlineInputBorder(
+                                                    borderRadius: BorderRadius.circular(12),
+                                                    borderSide: const BorderSide(
+                                                      color: Colors.blue,
+                                                    ),
+                                                  ),
+                                                ),
+                                                child: Container(
+                                                  // width: 220,
+                                                  height: 50,
+                                                  padding: EdgeInsets.only(left: 15),
+                                                  decoration: BoxDecoration(
+                                                    // color: Colors.black12,
+                                                    borderRadius: BorderRadius.circular(12),
+                                                    // border: Border.all(color: Colors.blue,),
+                                                  ),
+
+                                                  //office version
+                                                  child: CustomDropDownString(
+                                                    value: selectedLevelOfEducation==""? null: selectedLevelOfEducation,
+                                                    itemsList: levelOfEducation,
+                                                    hintText: "Level of Education",
+                                                    onChanged: (value) {
+                                                      setState(() {
+                                                        selectedLevelOfEducation = value;
+                                                        levelOfEducationInputDecoratorLabelText = "Level of Education";
+
+                                                      });
+                                                    },
+                                                  ),
+
+                                                  // self version
+                                                  // child: DropdownButtonHideUnderline(
+                                                  //   child: Padding(
+                                                  //
+                                                  //     padding: EdgeInsets.only(left: 5, right: 5),
+                                                  //     child: DropdownButton<String>(
+                                                  //         // menuMaxHeight: 300,
+                                                  //         // isExpanded: true,
+                                                  //         icon: Icon(Icons.arrow_drop_down, size: 30, color: Colors.blue,),
+                                                  //         // alignment: AlignmentDirectional.center,
+                                                  //         hint: const Text("Level of Education"),
+                                                  //         value: selectedLevelOfEducation==""? null: selectedLevelOfEducation,
+                                                  //         items: levelOfEducation
+                                                  //             .map((String value) {
+                                                  //           return DropdownMenuItem<String>(
+                                                  //             // alignment: AlignmentDirectional.center,
+                                                  //             value: value,
+                                                  //             child: Text(value.toString()),
+                                                  //           );
+                                                  //         }).toList(),
+                                                  //         onChanged: (newVal) {
+                                                  //           // selected_item = newVal!;
+                                                  //           setState(() {
+                                                  //             selectedLevelOfEducation = newVal!;
+                                                  //             levelOfEducationInputDecoratorLabelText = "Level of Education";
+                                                  //           });
+                                                  //         }),
+                                                  //   ),
+                                                  // ),
+
+                                                ),
                                               ),
+
+                                              // SizedBox(height:  30,),
+                                              // InputDecorator(
+                                              //   decoration: InputDecoration(
+                                              //     // labelText: "Institute Name",
+                                              //     labelText: instituteNameInputDecoratorLabelText,
+                                              //     // errorText: "errorText",
+                                              //     // floatingLabelBehavior: FloatingLabelBehavior.always,
+                                              //     contentPadding: const EdgeInsets.symmetric(
+                                              //       vertical: 0, horizontal: 5,
+                                              //     ),
+                                              //     border: OutlineInputBorder(
+                                              //       borderRadius: BorderRadius.circular(12),
+                                              //       borderSide: const BorderSide(
+                                              //         color: Colors.blue,
+                                              //       ),
+                                              //     ),
+                                              //   ),
+                                              //   child: Container(
+                                              //     // width: 220,
+                                              //     height: 50,
+                                              //     padding: EdgeInsets.only(left: 15),
+                                              //     decoration: BoxDecoration(
+                                              //       // color: Colors.black12,
+                                              //       borderRadius: BorderRadius.circular(12),
+                                              //       // border: Border.all(color: Colors.blue,),
+                                              //     ),
+                                              //
+                                              //
+                                              //     child: CustomDropDown(
+                                              //       value: selectedInstituteName==""? null: selectedInstituteName,
+                                              //       itemsList: const [],
+                                              //       hintText: "Institute Name",
+                                              //       onChanged: (value) {
+                                              //         setState(() {
+                                              //           selectedInstituteName = value;
+                                              //           instituteNameInputDecoratorLabelText = "Institute Name";
+                                              //
+                                              //         });
+                                              //       },
+                                              //     ),
+                                              //
+                                              //
+                                              //   ),
+                                              // ),
+
+                                              SizedBox(height: 20,),
+                                              BuildTextFormField(
+                                                labelText: "Institute Name",
+                                                controller: controllerInstituteName,
+                                                keyboardType: TextInputType.text,
+                                                filter: <TextInputFormatter>[
+                                                  FilteringTextInputFormatter.allow(
+                                                      RegExp(r'[a-zA-Z/.-]')),
+                                                ],
+                                              ),
+
+
+                                              SizedBox(height:  30,),
+                                              InputDecorator(
+                                                decoration: InputDecoration(
+                                                  // labelText: "Institute Location",
+                                                  labelText: instituteLocationInputDecoratorLabelText,
+                                                  // errorText: "errorText",
+                                                  // floatingLabelBehavior: FloatingLabelBehavior.always,
+                                                  contentPadding: const EdgeInsets.symmetric(
+                                                    vertical: 0, horizontal: 5,
+                                                  ),
+                                                  border: OutlineInputBorder(
+                                                    borderRadius: BorderRadius.circular(12),
+                                                    borderSide: const BorderSide(
+                                                      color: Colors.blue,
+                                                    ),
+                                                  ),
+                                                ),
+                                                child: Container(
+                                                  // width: 220,
+                                                  height: 50,
+                                                  padding: EdgeInsets.only(left: 15),
+                                                  decoration: BoxDecoration(
+                                                    // color: Colors.black12,
+                                                    borderRadius: BorderRadius.circular(12),
+                                                    // border: Border.all(color: Colors.blue,),
+                                                  ),
+
+
+                                                  child: CustomDropDownString(
+                                                    value: selectedInstituteLocation==""? null: selectedInstituteLocation,
+                                                    itemsList: instituteLocation,
+                                                    hintText: "Institute Location",
+                                                    onChanged: (value) {
+                                                      setState(() {
+                                                        selectedInstituteLocation = value;
+                                                        instituteLocationInputDecoratorLabelText = "Institute Location";
+
+                                                      });
+                                                    },
+                                                  ),
+
+
+                                                ),
+                                              ),
+
+                                              SizedBox(height:  30,),
+                                              InputDecorator(
+                                                decoration: InputDecoration(
+                                                  // labelText: "Institute Name",
+                                                  labelText: passingYearInputDecoratorLabelText,
+                                                  // errorText: "errorText",
+                                                  // floatingLabelBehavior: FloatingLabelBehavior.always,
+                                                  contentPadding: const EdgeInsets.symmetric(
+                                                    vertical: 0, horizontal: 5,
+                                                  ),
+                                                  border: OutlineInputBorder(
+                                                    borderRadius: BorderRadius.circular(12),
+                                                    borderSide: const BorderSide(
+                                                      color: Colors.blue,
+                                                    ),
+                                                  ),
+                                                ),
+                                                child: Container(
+                                                  // width: 220,
+                                                  height: 50,
+                                                  padding: EdgeInsets.only(left: 15),
+                                                  decoration: BoxDecoration(
+                                                    // color: Colors.black12,
+                                                    borderRadius: BorderRadius.circular(12),
+                                                    // border: Border.all(color: Colors.blue,),
+                                                  ),
+
+
+                                                  child: CustomDropDownInt(
+                                                    value: selectedPassingYear==0? null: selectedPassingYear,
+                                                    itemsList: passingYear,
+                                                    hintText: "Passing Year",
+                                                    onChanged: (value) {
+                                                      setState(() {
+                                                        selectedPassingYear = value;
+                                                        passingYearInputDecoratorLabelText = "Passing Year";
+
+                                                      });
+                                                    },
+                                                  ),
+
+
+                                                ),
+                                              ),
+
+                                              SizedBox(height:  30,),
+                                              InputDecorator(
+                                                decoration: InputDecoration(
+                                                  // labelText: "Institute Name",
+                                                  labelText: durationInputDecoratorLabelText,
+                                                  // errorText: "errorText",
+                                                  // floatingLabelBehavior: FloatingLabelBehavior.always,
+                                                  contentPadding: const EdgeInsets.symmetric(
+                                                    vertical: 0, horizontal: 5,
+                                                  ),
+                                                  border: OutlineInputBorder(
+                                                    borderRadius: BorderRadius.circular(12),
+                                                    borderSide: const BorderSide(
+                                                      color: Colors.blue,
+                                                    ),
+                                                  ),
+                                                ),
+                                                child: Container(
+                                                  // width: 220,
+                                                  height: 50,
+                                                  padding: EdgeInsets.only(left: 15),
+                                                  decoration: BoxDecoration(
+                                                    // color: Colors.black12,
+                                                    borderRadius: BorderRadius.circular(12),
+                                                    // border: Border.all(color: Colors.blue,),
+                                                  ),
+
+
+                                                  child: CustomDropDownInt(
+                                                    value: selectedDuration==0? null: selectedDuration,
+                                                    itemsList: duration,
+                                                    hintText: "Duration",
+                                                    onChanged: (value) {
+                                                      setState(() {
+                                                        selectedDuration = value;
+                                                        durationInputDecoratorLabelText = "Duration";
+
+                                                      });
+                                                    },
+                                                  ),
+
+
+                                                ),
+                                              ),
+
+
+
+
                                             ],
-                                            borderRadius:
-                                                BorderRadius.circular(10),
                                           ),
-                                          child: Material(
-                                            color: Colors.blue,
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            child: InkWell(
-                                              onTap: () async {
-                                                print("tap_detected_academic_qualification_add_new");
 
-                                                await showDialog(
-                                                  context: context,
-                                                  builder: (ctx) {
-                                                    return AlertDialog(
-                                                      // title: Text('Select Items'),
-                                                      // actions: <Widget>[
-                                                      //   TextButton(
-                                                      //     onPressed: () {
-                                                      //       setState(() {
-                                                      //         specialities
-                                                      //             .clear();
-                                                      //
-                                                      //         for (int i = 0;
-                                                      //             i <
-                                                      //                 customController
-                                                      //                     .selectedItems
-                                                      //                     .length;
-                                                      //             i++) {
-                                                      //           specialities
-                                                      //               .add(
-                                                      //             cardItem(
-                                                      //               customController
-                                                      //                   .selectedItems[i],
-                                                      //               customController
-                                                      //                   .selectedItemsIndexID[i],
-                                                      //               customController,
-                                                      //             ),
-                                                      //           );
-                                                      //         }
-                                                      //       });
-                                                      //
-                                                      //       Navigator.pop(
-                                                      //           context);
-                                                      //     },
-                                                      //     child: Text('Ok'),
-                                                      //   ),
-                                                      // ],
-                                                      content: Container(
-                                                        width: 350,
-                                                        height: 550,
-                                                        // child: CustomMultiSelectionButton(
-                                                        //   multiSelectionItems: ["Item 1", "Item 2", "Item 3"],
-                                                        //   multiSelectionButtonController: customController,
-                                                        // ),
-                                                        child: SingleChildScrollView(
-                                                          child: Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            children: <Widget>[
-                                                              const Text("Add New", style: TextStyle(fontSize: 22, color: Colors.blue, fontWeight: FontWeight.w800),),
-                                                              Text("Educational Qualification", style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w400),),
-
-                                                              SizedBox(height: 50,),
-                                                              Container(
-                                                                margin: EdgeInsets.all(0),
-                                                                height: 50.0,
-                                                                // width: 100.0,
-                                                                decoration: BoxDecoration(
-                                                                  color: Colors.transparent,
-                                                                  boxShadow: const [
-                                                                    BoxShadow(
-                                                                      color: Colors.grey,
-                                                                      // blurRadius: 4,
-                                                                      // offset: Offset(0, 2),
-                                                                    ),
-                                                                  ],
-                                                                  borderRadius:
-                                                                  BorderRadius.circular(10),
-                                                                ),
-                                                                child: Material(
-                                                                  color: Colors.blue,
-                                                                  borderRadius:
-                                                                  BorderRadius.circular(10),
-                                                                  child: InkWell(
-                                                                    onTap: () {
-                                                                      print("tap_detected_save_new_educational_qualification");
-                                                                      Navigator.pop(context);
-                                                                    },
-                                                                    child: const Center(
-                                                                      child: Text(
-                                                                        "Save",
-                                                                        style: TextStyle(
-                                                                          fontSize: 20,
-                                                                          fontWeight: FontWeight.w600,
-                                                                          color: Colors.black87,
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ),
-
-
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    );
-                                                  },
-                                                );
-                                              },
-                                              child: const Center(
-                                                child: Text(
-                                                  "Add New",
-                                                  style: TextStyle(
-                                                    fontSize: 22,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: Colors.black87,
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.all(0),
+                                            height: 50.0,
+                                            // width: 100.0,
+                                            decoration: BoxDecoration(
+                                              color: Colors.transparent,
+                                              boxShadow: const [
+                                                BoxShadow(
+                                                  color: Colors.grey,
+                                                  // blurRadius: 4,
+                                                  // offset: Offset(0, 2),
+                                                ),
+                                              ],
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            child: Material(
+                                              color: Colors.blue,
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              child: InkWell(
+                                                onTap: () async {
+                                                  print("tap_detected_academic_qualification_add_new");
+                                                  // addNewEducationAlertDialog();
+                                                },
+                                                child: const Center(
+                                                  child: Text(
+                                                    "Add New",
+                                                    style: TextStyle(
+                                                      fontSize: 22,
+                                                      fontWeight: FontWeight.w400,
+                                                      color: Colors.black87,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          OutlinedButton(
+                                            onPressed: () {
+                                              _isComplete[currentTab] = true;
+                                              if (currentTab + 1 < tabController.length)
+                                                _isDisabled[currentTab + 1] = false;
+
+                                              print(selectedLevelOfEducation);
+                                              print(controllerInstituteName.text);
+                                              print(selectedInstituteLocation);
+                                              print(selectedPassingYear);
+                                              print(selectedDuration);
+
+                                            },
+                                            child: Text("Make Tab 1 complete"),
+                                          ),
+                                          SizedBox(
+                                            height: 40,
+                                          ),
+                                          ElevatedButton(
+                                            onPressed: () {
+                                              tabController.animateTo(1);
+                                            },
+                                            child: const Text("It's cloudy here"),
+                                          ),
+                                          
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
-                                SizedBox(
-                                  height: 20,
+                              ),
+                              
+                            ],
+                          ),
+                        ),
+
+
+                        //1
+                        Container(
+                          // color: Colors.grey,
+                          child: Column(
+                            children: [
+
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              const Text(
+                                "Expertise",
+                                style: TextStyle(
+                                  fontFamily: 'OpenSans',
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black,
                                 ),
-                                OutlinedButton(
-                                  onPressed: () {
-                                    _isComplete[currentTab] = true;
-                                    if (currentTab + 1 < tabController.length)
-                                      _isDisabled[currentTab + 1] = false;
-                                  },
-                                  child: Text("Make Tab 1 complete"),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+
+                              Expanded(
+                                child: SingleChildScrollView(
+                                  child: Form(
+                                    key: formGlobalKey1,
+                                    child: SingleChildScrollView(
+                                      child: Column(
+                                        children: [
+
+
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          Text("data here"),
+
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          OutlinedButton(
+                                            onPressed: () {
+                                              _isComplete[currentTab] = true;
+                                              if (currentTab + 1 < tabController.length)
+                                                _isDisabled[currentTab + 1] = false;
+                                            },
+                                            child: Text("Make Tab 1 complete"),
+                                          ),
+                                          SizedBox(
+                                            height: 40,
+                                          ),
+                                          ElevatedButton(
+                                            onPressed: () {
+                                              tabController.animateTo(2);
+                                            },
+                                            child: const Text("It's cloudy here"),
+                                          ),
+
+                                        ],
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                                SizedBox(
-                                  height: 40,
-                                ),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    tabController.animateTo(1);
-                                  },
-                                  child: const Text("It's cloudy here"),
-                                ),
-                              ],
-                            ),
+                              ),
+
+                            ],
                           ),
                         ),
 
                         //2
                         Container(
-                          // color: Colors.blueGrey,
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                Form(
-                                  key: formGlobalKey2,
-                                  child: SingleChildScrollView(
-                                    child: Column(
-                                      children: [
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        const Text(
-                                          "Expertise",
-                                          style: TextStyle(
-                                            fontFamily: 'OpenSans',
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w400,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: 40,
-                                        ),
-                                        InputDecorator(
-                                          decoration: InputDecoration(
-                                            labelText: "Specialities",
-                                            // errorText: "errorText",
-                                            // floatingLabelBehavior: FloatingLabelBehavior.always,
-                                            contentPadding:
-                                                const EdgeInsets.symmetric(
-                                                    vertical: 14,
-                                                    horizontal: 10),
-                                            border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                              borderSide: const BorderSide(
-                                                color: Colors.blue,
-                                              ),
-                                            ),
-                                          ),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Card(
-                                                shape: RoundedRectangleBorder(
-                                                  side: BorderSide(
-                                                      color: Colors.blue,
-                                                      width: 1),
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                ),
-                                                child: InkWell(
-                                                    child: Padding(
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal: 10,
-                                                              vertical: 5),
-                                                      child: Row(
-                                                        children: const [
-                                                          Text(
-                                                            // (specialities.isEmpty? "Select Specialities": "Selected Specialities"),
-                                                            "Select/Selected Specialities",
-                                                            style: TextStyle(
-                                                                fontSize: 18),
-                                                          ),
-                                                          Expanded(
-                                                            child: SizedBox(
-                                                              height: 1,
-                                                            ),
-                                                          ),
-                                                          Icon(
-                                                            Icons
-                                                                .arrow_drop_down,
-                                                            size: 30,
-                                                            color: Colors.blue,
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    onTap: () async {
-                                                      await showDialog(
-                                                        context: context,
-                                                        builder: (ctx) {
-                                                          return AlertDialog(
-                                                            title: Text(
-                                                                'Select Items'),
-                                                            actions: <Widget>[
-                                                              TextButton(
-                                                                onPressed: () {
-                                                                  setState(() {
-                                                                    specialities
-                                                                        .clear();
+                          // color: Colors.grey,
+                          child: Column(
+                            children: [
 
-                                                                    for (int i =
-                                                                            0;
-                                                                        i < customController.selectedItems.length;
-                                                                        i++) {
-                                                                      specialities
-                                                                          .add(
-                                                                        cardItem(
-                                                                          customController
-                                                                              .selectedItems[i],
-                                                                          customController
-                                                                              .selectedItemsIndexID[i],
-                                                                          customController,
-                                                                        ),
-                                                                      );
-                                                                    }
-                                                                  });
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              const Text(
+                                "Experience",
+                                style: TextStyle(
+                                  fontFamily: 'OpenSans',
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
 
-                                                                  Navigator.pop(
-                                                                      context);
-                                                                },
-                                                                child:
-                                                                    Text('Ok'),
-                                                              ),
-                                                            ],
-                                                            content: Container(
-                                                              width: 250,
-                                                              height: 300,
-                                                              // child: CustomMultiSelectionButton(
-                                                              //   multiSelectionItems: ["Item 1", "Item 2", "Item 3"],
-                                                              //   multiSelectionButtonController: customController,
-                                                              // ),
-                                                              child: Column(
-                                                                children: <
-                                                                    Widget>[
-                                                                  itemBuilder(
-                                                                      0),
-                                                                  itemBuilder(
-                                                                      1),
-                                                                  itemBuilder(
-                                                                      2),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          );
-                                                        },
-                                                      );
-                                                    }),
-                                              ),
-                                              Wrap(
-                                                direction: Axis.horizontal,
-                                                children: specialities,
-                                              ),
-                                            ],
+                              Expanded(
+                                child: SingleChildScrollView(
+                                  child: Form(
+                                    key: formGlobalKey2,
+                                    child: SingleChildScrollView(
+                                      child: Column(
+                                        children: [
+
+
+                                          SizedBox(
+                                            height: 20,
                                           ),
-                                        ),
-                                        const SizedBox(
-                                          height: 20,
-                                        ),
-                                      ],
+                                          Text("data here"),
+
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          OutlinedButton(
+                                            onPressed: () {
+                                              _isComplete[currentTab] = true;
+                                              if (currentTab + 1 < tabController.length)
+                                                _isDisabled[currentTab + 1] = false;
+                                            },
+                                            child: Text("Make Tab 2 complete"),
+                                          ),
+                                          SizedBox(
+                                            height: 40,
+                                          ),
+                                          ElevatedButton(
+                                            onPressed: () {
+                                              tabController.animateTo(3);
+                                            },
+                                            child: const Text("It's cloudy here"),
+                                          ),
+
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                OutlinedButton(
-                                  onPressed: () {
-                                    _isComplete[currentTab] = true;
-                                    if (currentTab + 1 < tabController.length)
-                                      _isDisabled[currentTab + 1] = false;
-                                  },
-                                  child: Text("Make Tab 2 complete"),
-                                ),
-                                SizedBox(
-                                  height: 40,
-                                ),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    tabController.animateTo(2);
-                                  },
-                                  child: Text("It's cloudy here"),
-                                ),
-                              ],
-                            ),
+                              ),
+
+                            ],
                           ),
                         ),
 
                         //3
                         Container(
-                          // color: Colors.brown,
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                Form(
-                                  key: formGlobalKey3,
-                                  child: SingleChildScrollView(
-                                    child: Column(
-                                      children: [
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        const Text(
-                                          "Experience",
-                                          style: TextStyle(
-                                            fontFamily: 'OpenSans',
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w400,
-                                            color: Colors.black,
+                          // color: Colors.grey,
+                          child: Column(
+                            children: [
+
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              const Text(
+                                "Availability",
+                                style: TextStyle(
+                                  fontFamily: 'OpenSans',
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+
+                              Expanded(
+                                child: SingleChildScrollView(
+                                  child: Form(
+                                    key: formGlobalKey3,
+                                    child: SingleChildScrollView(
+                                      child: Column(
+                                        children: [
+
+
+                                          SizedBox(
+                                            height: 20,
                                           ),
-                                        ),
-                                        const SizedBox(
-                                          height: 40,
-                                        ),
-                                        InputDecorator(
-                                          decoration: InputDecoration(
-                                            labelText: "Experience",
-                                            // errorText: "errorText",
-                                            // floatingLabelBehavior: FloatingLabelBehavior.always,
-                                            contentPadding:
-                                                const EdgeInsets.symmetric(
-                                                    vertical: 10,
-                                                    horizontal: 10),
-                                            border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                              borderSide: const BorderSide(
-                                                color: Colors.blue,
-                                              ),
-                                            ),
+                                          Text("data here"),
+
+                                          SizedBox(
+                                            height: 20,
                                           ),
-                                          child: Row(
-                                            // mainAxisAlignment: MainAxisAlignment.center,
-                                            children: [
-                                              Container(
-                                                width: 220,
-                                                height: 40,
-                                                padding:
-                                                    EdgeInsets.only(left: 15),
-                                                decoration: BoxDecoration(
-                                                  // color: Colors.black12,
-                                                  borderRadius:
-                                                      BorderRadius.circular(12),
-                                                  border: Border.all(
-                                                    color: Colors.blue,
-                                                  ),
-                                                ),
-                                                child:
-                                                    DropdownButtonHideUnderline(
-                                                  child: DropdownButton<int>(
-                                                      icon: Icon(
-                                                        Icons.arrow_drop_down,
-                                                        size: 30,
-                                                        color: Colors.blue,
-                                                      ),
-                                                      // alignment: AlignmentDirectional.center,
-                                                      hint: Text("Select"),
-                                                      value: selectedExperience,
-                                                      items: experienceYear
-                                                          .map((int value) {
-                                                        return DropdownMenuItem<
-                                                            int>(
-                                                          alignment:
-                                                              AlignmentDirectional
-                                                                  .center,
-                                                          value: value,
-                                                          child: Text(
-                                                              value.toString()),
-                                                        );
-                                                      }).toList(),
-                                                      onChanged: (newVal) {
-                                                        // selected_item = newVal!;
-                                                        setState(() {
-                                                          selectedExperience =
-                                                              newVal!;
-                                                        });
-                                                      }),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: 60,
-                                              ),
-                                              Text(
-                                                " Years ",
-                                                style: TextStyle(
-                                                  fontSize: 20,
-                                                ),
-                                              ),
-                                            ],
+                                          OutlinedButton(
+                                            onPressed: () {
+                                              _isComplete[currentTab] = true;
+                                              if (currentTab + 1 < tabController.length)
+                                                _isDisabled[currentTab + 1] = false;
+                                            },
+                                            child: Text("Make Tab 3 complete"),
                                           ),
-                                        ),
-                                      ],
+                                          SizedBox(
+                                            height: 40,
+                                          ),
+                                          ElevatedButton(
+                                            onPressed: () {
+                                              tabController.animateTo(0);
+                                            },
+                                            child: const Text("It's cloudy here"),
+                                          ),
+
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                OutlinedButton(
-                                  onPressed: () {
-                                    _isComplete[currentTab] = true;
-                                    if (currentTab + 1 < tabController.length)
-                                      _isDisabled[currentTab + 1] = false;
-                                  },
-                                  child: Text("Make Tab 3 complete"),
-                                ),
-                                SizedBox(
-                                  height: 40,
-                                ),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    // print("done");
-                                    tabController.animateTo(3);
-                                  },
-                                  child: Text("It's cloudy here"),
-                                ),
-                              ],
-                            ),
+                              ),
+
+                            ],
                           ),
                         ),
 
-                        //4
-                        Container(
-                          // color: Colors.brown,
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                Form(
-                                  key: formGlobalKey4,
-                                  child: SingleChildScrollView(
-                                    child: Column(
-                                      children: const [
-                                        SizedBox(
-                                          height: 5,
-                                        ),
-                                        Text(
-                                          "Availability",
-                                          style: TextStyle(
-                                            fontFamily: 'OpenSans',
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w400,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 40,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                OutlinedButton(
-                                  onPressed: () {
-                                    _isComplete[currentTab] = true;
-                                    if (currentTab + 1 < tabController.length)
-                                      _isDisabled[currentTab + 1] = false;
-                                  },
-                                  child: Text("Make Tab 4 complete"),
-                                ),
-                                SizedBox(
-                                  height: 40,
-                                ),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    // print("done");
-                                    tabController.animateTo(0);
-                                  },
-                                  child: Text("It's cloudy here"),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+
+
                       ],
                     ),
                   ),
-                ],
+
+                ]
+                ,
               ),
             ),
           ),
@@ -905,6 +943,73 @@ class _ConsultantRegistrationScreenState
       ],
     );
   }
+
+
+  Future addNewEducationAlertDialog() async {
+    return await showDialog(
+      context: context,
+      builder: (ctx) {
+        return AlertDialog(
+          content: Container(
+            width: 350,
+            height: 550,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  const Text("Add New", style: TextStyle(fontSize: 22, color: Colors.blue, fontWeight: FontWeight.w800),),
+                  Text("Educational Qualification", style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w400),),
+
+                  SizedBox(height: 50,),
+                  Container(
+                    margin: EdgeInsets.all(0),
+                    height: 50.0,
+                    // width: 100.0,
+                    decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.grey,
+                          // blurRadius: 4,
+                          // offset: Offset(0, 2),
+                        ),
+                      ],
+                      borderRadius:
+                      BorderRadius.circular(10),
+                    ),
+                    child: Material(
+                      color: Colors.blue,
+                      borderRadius:
+                      BorderRadius.circular(10),
+                      child: InkWell(
+                        onTap: () {
+                          print("tap_detected_save_new_educational_qualification");
+                          Navigator.pop(context);
+                        },
+                        child: const Center(
+                          child: Text(
+                            "Save",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black87,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+
+
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
 }
 
 class BuildTextFormField extends StatelessWidget {
