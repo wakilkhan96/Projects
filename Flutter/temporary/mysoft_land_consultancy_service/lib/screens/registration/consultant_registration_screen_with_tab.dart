@@ -700,7 +700,7 @@ class _ConsultantRegistrationScreenState
                                               print(selectedDuration);
 
                                             },
-                                            child: Text("Make Tab 1 complete"),
+                                            child: Text("Make Tab 0 complete"),
                                           ),
                                           SizedBox(
                                             height: 40,
@@ -754,11 +754,133 @@ class _ConsultantRegistrationScreenState
                                       child: Column(
                                         children: [
 
-
                                           SizedBox(
                                             height: 20,
                                           ),
-                                          Text("data here"),
+
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+
+                                              const Text("Add New", style: TextStyle(fontSize: 22, color: Colors.blue, fontWeight: FontWeight.w800),),
+                                              Text("Area of Expertise", style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w400),),
+
+                                              SizedBox(
+                                                height: 20,
+                                              ),
+                                              InputDecorator(
+                                                decoration: InputDecoration(
+                                                  labelText: "Specialities",
+                                                  // errorText: "errorText",
+                                                  // floatingLabelBehavior: FloatingLabelBehavior.always,
+                                                  contentPadding: const EdgeInsets.symmetric(
+                                                      vertical: 14, horizontal: 10),
+                                                  border: OutlineInputBorder(
+                                                    borderRadius: BorderRadius.circular(12),
+                                                    borderSide: const BorderSide(
+                                                      color: Colors.blue,
+                                                    ),
+                                                  ),
+                                                ),
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Card(
+                                                        shape: RoundedRectangleBorder(
+                                                          side:
+                                                          BorderSide(color: Colors.blue, width: 1),
+                                                          borderRadius: BorderRadius.circular(10),
+                                                        ),
+                                                        child: InkWell(
+                                                            child: Padding(
+                                                              padding: EdgeInsets.symmetric(
+                                                                  horizontal: 10, vertical: 5),
+                                                              child: Row(
+                                                                children: const [
+                                                                  Text(
+                                                                    // (specialities.isEmpty? "Select Specialities": "Selected Specialities"),
+                                                                    "Select/Selected Specialities",
+                                                                    style: TextStyle(fontSize: 18),
+                                                                  ),
+                                                                  Expanded(
+                                                                    child: SizedBox(
+                                                                      height: 1,
+                                                                    ),
+                                                                  ),
+                                                                  Icon(
+                                                                    Icons.arrow_drop_down,
+                                                                    size: 30,
+                                                                    color: Colors.blue,
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                            onTap: () async {
+                                                              await showDialog(
+                                                                context: context,
+                                                                builder: (ctx) {
+                                                                  return AlertDialog(
+                                                                    title: Text('Select Items'),
+                                                                    actions: <Widget>[
+                                                                      TextButton(
+                                                                        onPressed: () {
+                                                                          setState(() {
+                                                                            specialities.clear();
+
+                                                                            for (int i = 0;
+                                                                            i <
+                                                                                customController
+                                                                                    .selectedItems
+                                                                                    .length;
+                                                                            i++) {
+                                                                              specialities.add(
+                                                                                cardItem(
+                                                                                  customController
+                                                                                      .selectedItems[i],
+                                                                                  customController
+                                                                                      .selectedItemsIndexID[i],
+                                                                                  customController,
+                                                                                ),
+                                                                              );
+                                                                            }
+                                                                          });
+
+                                                                          Navigator.pop(context);
+                                                                        },
+                                                                        child: Text('Ok'),
+                                                                      ),
+                                                                    ],
+                                                                    content: Container(
+                                                                      width: 250,
+                                                                      height: 300,
+                                                                      // child: CustomMultiSelectionButton(
+                                                                      //   multiSelectionItems: ["Item 1", "Item 2", "Item 3"],
+                                                                      //   multiSelectionButtonController: customController,
+                                                                      // ),
+                                                                      child: Column(
+                                                                        children: <Widget>[
+                                                                          itemBuilder(0),
+                                                                          itemBuilder(1),
+                                                                          itemBuilder(2),
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                  );
+                                                                },
+                                                              );
+
+                                                            })),
+                                                    Wrap(
+                                                      direction: Axis.horizontal,
+                                                      children: specialities,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+
+
+                                            ],
+                                          ),
 
                                           SizedBox(
                                             height: 20,
@@ -822,11 +944,21 @@ class _ConsultantRegistrationScreenState
                                       child: Column(
                                         children: [
 
-
-                                          SizedBox(
-                                            height: 20,
+                                          const SizedBox(
+                                            height: 5,
                                           ),
-                                          Text("data here"),
+                                          const Text(
+                                            "Expertise",
+                                            style: TextStyle(
+                                              fontFamily: 'OpenSans',
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w400,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
 
                                           SizedBox(
                                             height: 20,
@@ -1046,6 +1178,7 @@ class BuildTextFormField extends StatelessWidget {
         controller: controller,
         decoration: InputDecoration(
           labelText: labelText,
+          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
           // errorText: "errorText",
           // floatingLabelBehavior: FloatingLabelBehavior.always,
           border: OutlineInputBorder(

@@ -20,7 +20,7 @@ class CustomDropDownString extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: 5, top: 3, bottom: 3, right: 5),
+      padding: EdgeInsets.only(left: 0, top: 0, bottom: 0, right: 0),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
@@ -28,7 +28,7 @@ class CustomDropDownString extends StatelessWidget {
         ),
         child: DropdownButtonHideUnderline(
           child: Padding(
-            padding: const EdgeInsets.only(left: 14.0, right: 14),
+            padding: const EdgeInsets.only(left: 0.0, right: 0),
             child: DropdownButton(
               hint: hintText==null? null : Text(hintText!),
               isExpanded: true,
