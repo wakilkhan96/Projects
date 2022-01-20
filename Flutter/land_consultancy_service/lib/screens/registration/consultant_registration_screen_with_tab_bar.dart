@@ -4,6 +4,9 @@ import 'dart:io';
 import 'dart:async';
 import 'package:land_consultancy_service/src/custom_date_time_utility.dart';
 
+// import 'package:land_consultancy_service/src/other_contributors/custom_drop_down_int.dart';
+// import 'package:land_consultancy_service/src/other_contributors/custom_drop_down_string.dart';
+
 class TabState {
   bool isComplete;
   bool isDisabled;
@@ -32,6 +35,7 @@ class _ConsultantRegistrationScreenState extends State<ConsultantRegistrationScr
   int currentTab = 0;
 
   // final GlobalKey<_ConsultantRegistrationScreenState> parent = GlobalKey();
+  final formGlobalKey = GlobalKey<FormState>();
   final formGlobalKey0 = GlobalKey<FormState>();
   final formGlobalKey1 = GlobalKey<FormState>();
   final formGlobalKey2 = GlobalKey<FormState>();
@@ -71,6 +75,33 @@ class _ConsultantRegistrationScreenState extends State<ConsultantRegistrationScr
 
 
   List<Widget> specialities = [];
+
+
+  /* Form 0 data controllers -> start */
+  String levelOfEducationInputDecoratorLabelText = "";
+  List<String> levelOfEducation = ["Secondary", "Higher Secondary", "Diploma", "Bachelor/Honors", "Masters", "PhD"];
+  String selectedLevelOfEducation = "";
+  // List<String> examOrDegree = ["", "Higher Secondary", "Diploma", "Bachelor/Honors", "Masters", "PhD"];
+
+  final TextEditingController controllerInstituteName = TextEditingController(text: '');
+
+  String instituteLocationInputDecoratorLabelText = "";
+  List<String> instituteLocation = ["Dhaka", "Rajshahi", "Chittagong", "khulna",];
+  String selectedInstituteLocation = "";
+
+  String passingYearInputDecoratorLabelText = "";
+  List<int> passingYear = [2010, 2011, 2012];
+  int selectedPassingYear = 0;
+
+  String courseDurationInputDecoratorLabelText = "";
+  List<int> courseDuration = [3, 4, 5];
+  int selectedCourseDuration = 0;
+  /* Form 0 data controllers <- end */
+
+
+
+
+
 
 
   /* dynamic dropdown item button builder*/
@@ -160,7 +191,7 @@ class _ConsultantRegistrationScreenState extends State<ConsultantRegistrationScr
     );
   }
 
-  Widget form1(GlobalKey<FormState> formGlobalKey) {
+  Widget form(GlobalKey<FormState> formGlobalKey) {
     return Form(
       key: formGlobalKey,
       child: SingleChildScrollView(
@@ -501,6 +532,420 @@ class _ConsultantRegistrationScreenState extends State<ConsultantRegistrationScr
     );
   }
 
+  Widget form0(GlobalKey<FormState> formGlobalKey) {
+    return Form(
+      key: formGlobalKey,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+
+            SizedBox(
+              height: 20,
+            ),
+
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                const Text("Add New", style: TextStyle(fontSize: 22, color: Colors.blue, fontWeight: FontWeight.w800),),
+                Text("Educational Qualification", style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w400),),
+
+                // Level of Education
+                SizedBox(height:  30,),
+                InputDecorator(
+                  decoration: InputDecoration(
+                    // labelText: "Level of Education",
+                    labelText: levelOfEducationInputDecoratorLabelText,
+                    // errorText: "errorText",
+                    // floatingLabelBehavior: FloatingLabelBehavior.always,
+                    contentPadding: const EdgeInsets.symmetric(
+                      vertical: 0, horizontal: 5,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: const BorderSide(
+                        color: Colors.blue,
+                      ),
+                    ),
+                  ),
+                  child: Container(
+                    // width: 220,
+                    height: 50,
+                    padding: EdgeInsets.only(left: 15),
+                    decoration: BoxDecoration(
+                      // color: Colors.black12,
+                      borderRadius: BorderRadius.circular(12),
+                      // border: Border.all(color: Colors.blue,),
+                    ),
+
+                    // //office version
+                    // child: CustomDropDownString(
+                    //   value: selectedLevelOfEducation==""? null: selectedLevelOfEducation,
+                    //   itemsList: levelOfEducation,
+                    //   hintText: "Level of Education",
+                    //   onChanged: (value) {
+                    //     setState(() {
+                    //       selectedLevelOfEducation = value;
+                    //       levelOfEducationInputDecoratorLabelText = "Level of Education";
+                    //
+                    //     });
+                    //   },
+                    // ),
+
+                    // self version
+                    child: DropdownButtonHideUnderline(
+                      child: Padding(
+
+                        padding: EdgeInsets.only(left: 5, right: 5),
+                        child: DropdownButton<String>(
+                            // menuMaxHeight: 300,
+                            // isExpanded: true,
+                            icon: Icon(Icons.arrow_drop_down, size: 30, color: Colors.blue,),
+                            // alignment: AlignmentDirectional.center,
+                            hint: const Text("Level of Education"),
+                            value: selectedLevelOfEducation==""? null: selectedLevelOfEducation,
+                            items: levelOfEducation
+                                .map((String value) {
+                              return DropdownMenuItem<String>(
+                                // alignment: AlignmentDirectional.center,
+                                value: value,
+                                child: Text(value.toString()),
+                              );
+                            }).toList(),
+                            onChanged: (newVal) {
+                              // selected_item = newVal!;
+                              setState(() {
+                                selectedLevelOfEducation = newVal!;
+                                levelOfEducationInputDecoratorLabelText = "Level of Education";
+                              });
+                            }),
+                      ),
+                    ),
+
+                  ),
+                ),
+
+                // Institute name
+                SizedBox(height: 20,),
+                BuildTextFormField(
+                  labelText: "Institute Name",
+                  controller: controllerInstituteName,
+                  keyboardType: TextInputType.text,
+                  filter: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(
+                        RegExp(r'[a-zA-Z/.-]')),
+                  ],
+                ),
+
+                //Institute Location
+                SizedBox(height:  30,),
+                InputDecorator(
+                  decoration: InputDecoration(
+                    // labelText: "Institute Location",
+                    labelText: instituteLocationInputDecoratorLabelText,
+                    // errorText: "errorText",
+                    // floatingLabelBehavior: FloatingLabelBehavior.always,
+                    contentPadding: const EdgeInsets.symmetric(
+                      vertical: 0, horizontal: 5,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: const BorderSide(
+                        color: Colors.blue,
+                      ),
+                    ),
+                  ),
+                  child: Container(
+                    // width: 220,
+                    height: 50,
+                    padding: EdgeInsets.only(left: 15),
+                    decoration: BoxDecoration(
+                      // color: Colors.black12,
+                      borderRadius: BorderRadius.circular(12),
+                      // border: Border.all(color: Colors.blue,),
+                    ),
+
+                    child: DropdownButtonHideUnderline(
+                      child: Padding(
+
+                        padding: EdgeInsets.only(left: 5, right: 5),
+                        child: DropdownButton<String>(
+                          // menuMaxHeight: 300,
+                          // isExpanded: true,
+                            icon: Icon(Icons.arrow_drop_down, size: 30, color: Colors.blue,),
+                            // alignment: AlignmentDirectional.center,
+                            hint: const Text("Institute Location"),
+                            value: selectedInstituteLocation==""? null: selectedInstituteLocation,
+                            items: instituteLocation
+                                .map((String value) {
+                              return DropdownMenuItem<String>(
+                                // alignment: AlignmentDirectional.center,
+                                value: value,
+                                child: Text(value.toString()),
+                              );
+                            }).toList(),
+                            onChanged: (newVal) {
+                              // selected_item = newVal!;
+                              setState(() {
+                                selectedInstituteLocation = newVal!;
+                                instituteLocationInputDecoratorLabelText = "Institute Location";
+                              });
+                            }),
+                      ),
+                    ),
+
+                  ),
+                ),
+
+                //Passing Year
+                SizedBox(height:  30,),
+                InputDecorator(
+                  decoration: InputDecoration(
+                    // labelText: "Passing Year",
+                    labelText: passingYearInputDecoratorLabelText,
+                    // errorText: "errorText",
+                    // floatingLabelBehavior: FloatingLabelBehavior.always,
+                    contentPadding: const EdgeInsets.symmetric(
+                      vertical: 0, horizontal: 5,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: const BorderSide(
+                        color: Colors.blue,
+                      ),
+                    ),
+                  ),
+                  child: Container(
+                    // width: 220,
+                    height: 50,
+                    padding: EdgeInsets.only(left: 15),
+                    decoration: BoxDecoration(
+                      // color: Colors.black12,
+                      borderRadius: BorderRadius.circular(12),
+                      // border: Border.all(color: Colors.blue,),
+                    ),
+
+                    child: DropdownButtonHideUnderline(
+                      child: Padding(
+
+                        padding: EdgeInsets.only(left: 5, right: 5),
+                        child: DropdownButton<int>(
+                          // menuMaxHeight: 300,
+                          // isExpanded: true,
+                            icon: Icon(Icons.arrow_drop_down, size: 30, color: Colors.blue,),
+                            // alignment: AlignmentDirectional.center,
+                            hint: const Text("Passing Year"),
+                            value: selectedPassingYear==0? null: selectedPassingYear,
+                            items: passingYear
+                                .map((int value) {
+                              return DropdownMenuItem<int>(
+                                // alignment: AlignmentDirectional.center,
+                                value: value,
+                                child: Text(value.toString()),
+                              );
+                            }).toList(),
+                            onChanged: (newVal) {
+                              // selected_item = newVal!;
+                              setState(() {
+                                selectedPassingYear = newVal!;
+                                passingYearInputDecoratorLabelText = "Passing Year";
+                              });
+                            }),
+                      ),
+                    ),
+
+                  ),
+                ),
+
+                // Course Duration
+                SizedBox(height:  30,),
+                InputDecorator(
+                  decoration: InputDecoration(
+                    // labelText: "Course Duration",
+                    labelText: courseDurationInputDecoratorLabelText,
+                    // errorText: "errorText",
+                    // floatingLabelBehavior: FloatingLabelBehavior.always,
+                    contentPadding: const EdgeInsets.symmetric(
+                      vertical: 0, horizontal: 5,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: const BorderSide(
+                        color: Colors.blue,
+                      ),
+                    ),
+                  ),
+                  child: Container(
+                    // width: 220,
+                    height: 50,
+                    padding: EdgeInsets.only(left: 15),
+                    decoration: BoxDecoration(
+                      // color: Colors.black12,
+                      borderRadius: BorderRadius.circular(12),
+                      // border: Border.all(color: Colors.blue,),
+                    ),
+
+                    child: DropdownButtonHideUnderline(
+                      child: Padding(
+
+                        padding: EdgeInsets.only(left: 5, right: 5),
+                        child: DropdownButton<int>(
+                          // menuMaxHeight: 300,
+                          // isExpanded: true,
+                            icon: Icon(Icons.arrow_drop_down, size: 30, color: Colors.blue,),
+                            // alignment: AlignmentDirectional.center,
+                            hint: const Text("Course Duration"),
+                            value: selectedCourseDuration==0? null: selectedCourseDuration,
+                            items: courseDuration
+                                .map((int value) {
+                              return DropdownMenuItem<int>(
+                                // alignment: AlignmentDirectional.center,
+                                value: value,
+                                child: Text(value.toString()),
+                              );
+                            }).toList(),
+                            onChanged: (newVal) {
+                              // selected_item = newVal!;
+                              setState(() {
+                                selectedCourseDuration = newVal!;
+                                courseDurationInputDecoratorLabelText = "Course Duration";
+                              });
+                            }),
+                      ),
+                    ),
+
+                  ),
+                ),
+
+              ],
+            ),
+
+            SizedBox(
+              height: 20,
+            ),
+
+            // Add New Button
+            Container(
+              margin: EdgeInsets.all(0),
+              height: 50.0,
+              // width: 100.0,
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.grey,
+                    // blurRadius: 4,
+                    // offset: Offset(0, 2),
+                  ),
+                ],
+                borderRadius:
+                BorderRadius.circular(10),
+              ),
+              child: Material(
+                color: Colors.blue,
+                borderRadius:
+                BorderRadius.circular(10),
+                child: InkWell(
+                  onTap: () async {
+                    print("tap_detected_academic_qualification_add_new");
+                    /// print data
+                    print(selectedLevelOfEducation);
+                    print(controllerInstituteName.text);
+                    print(selectedInstituteLocation);
+                    print(selectedPassingYear);
+                    print(selectedCourseDuration);
+                    /// print data
+                    // addNewEducationAlertDialog();
+                  },
+                  child: const Center(
+                    child: Text(
+                      "Add New",
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black87,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            SizedBox(
+              height: 20,
+            ),
+
+          ],
+        ),
+      ),
+    );
+  }
+
+  //**form 0 optional part
+  Future addNewEducationAlertDialog() async {
+    return await showDialog(
+      context: context,
+      builder: (ctx) {
+        return AlertDialog(
+          content: Container(
+            width: 350,
+            height: 550,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  const Text("Add New", style: TextStyle(fontSize: 22, color: Colors.blue, fontWeight: FontWeight.w800),),
+                  Text("Educational Qualification", style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w400),),
+
+                  SizedBox(height: 50,),
+                  Container(
+                    margin: EdgeInsets.all(0),
+                    height: 50.0,
+                    // width: 100.0,
+                    decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.grey,
+                          // blurRadius: 4,
+                          // offset: Offset(0, 2),
+                        ),
+                      ],
+                      borderRadius:
+                      BorderRadius.circular(10),
+                    ),
+                    child: Material(
+                      color: Colors.blue,
+                      borderRadius:
+                      BorderRadius.circular(10),
+                      child: InkWell(
+                        onTap: () {
+                          print("tap_detected_save_new_educational_qualification");
+                          Navigator.pop(context);
+                        },
+                        child: const Center(
+                          child: Text(
+                            "Save",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black87,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+
+
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+  //**form 0 optional part
 
 
 
@@ -610,42 +1055,59 @@ class _ConsultantRegistrationScreenState extends State<ConsultantRegistrationScr
                         // Tab 0 Container
                         Container(
                           // color: Colors.grey,
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                const SizedBox(height: 7,),
-                                const Text(
-                                  "Academic Qualification",
-                                  style: TextStyle(
-                                    fontFamily: 'OpenSans',
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black,
+                          child: Column(
+                            children: [
+
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              const Text(
+                                "Academic Qualification",
+                                style: TextStyle(
+                                  fontFamily: 'OpenSans',
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+
+                              Expanded(
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    children: [
+
+                                      form0(formGlobalKey0),
+                                      
+                                      SizedBox(height: 20,),
+                                      OutlinedButton(
+                                        onPressed: () {
+                                          tabIndex[0].isComplete = true;
+
+                                        },
+                                        child: Text("Make Tab 0 complete"),
+                                      ),
+                                      SizedBox(height: 40,),
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          if(tabIndex[0].isComplete) {
+                                            tabIndex[1].isDisabled = false;
+                                            tabController.animateTo(1);
+                                          }
+                                        },
+                                        child: const Text("Tab 0 to Tab 1"),
+                                      ),
+
+                                    ],
                                   ),
                                 ),
 
-                                form1(formGlobalKey0),
+                              ),
 
-                                SizedBox(height: 20,),
-                                OutlinedButton(
-                                  onPressed: () {
-                                    tabIndex[0].isComplete = true;
-                                  },
-                                  child: Text("Make Tab 0 complete"),
-                                ),
-                                SizedBox(height: 40,),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    if(tabIndex[0].isComplete) {
-                                      tabIndex[1].isDisabled = false;
-                                      tabController.animateTo(1);
-                                    }
-                                  },
-                                  child: const Text("Tab 0 to Tab 1"),
-                                ),
 
-                              ],
-                            ),
+                            ],
                           ),
                         ),
 
@@ -653,42 +1115,58 @@ class _ConsultantRegistrationScreenState extends State<ConsultantRegistrationScr
                         // Tab 1 Container
                         Container(
                           // color: Colors.grey,
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                const SizedBox(height: 7,),
-                                const Text(
-                                  "Expertise",
-                                  style: TextStyle(
-                                    fontFamily: 'OpenSans',
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black,
+                          child: Column(
+                            children: [
+
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              const Text(
+                                "Expertise",
+                                style: TextStyle(
+                                  fontFamily: 'OpenSans',
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+
+                              Expanded(
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    children: [
+
+                                      form0(formGlobalKey1),
+
+                                      SizedBox(height: 20,),
+                                      OutlinedButton(
+                                        onPressed: () {
+                                          tabIndex[1].isComplete = true;
+                                        },
+                                        child: Text("Make Tab 1 complete"),
+                                      ),
+                                      SizedBox(height: 40,),
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          if(tabIndex[1].isComplete) {
+                                            tabIndex[2].isDisabled = false;
+                                            tabController.animateTo(2);
+                                          }
+                                        },
+                                        child: const Text("Tab 1 to Tab 2"),
+                                      ),
+
+                                    ],
                                   ),
                                 ),
 
-                                form1(formGlobalKey1),
+                              ),
 
-                                SizedBox(height: 20,),
-                                OutlinedButton(
-                                  onPressed: () {
-                                    tabIndex[1].isComplete = true;
-                                  },
-                                  child: Text("Make Tab 1 complete"),
-                                ),
-                                SizedBox(height: 40,),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    if(tabIndex[1].isComplete) {
-                                      tabIndex[2].isDisabled = false;
-                                      tabController.animateTo(2);
-                                    }
-                                  },
-                                  child: const Text("Tab 1 to Tab 2"),
-                                ),
 
-                              ],
-                            ),
+                            ],
                           ),
                         ),
 
@@ -696,42 +1174,58 @@ class _ConsultantRegistrationScreenState extends State<ConsultantRegistrationScr
                         // Tab 2 Container
                         Container(
                           // color: Colors.grey,
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                const SizedBox(height: 7,),
-                                const Text(
-                                  "Experience",
-                                  style: TextStyle(
-                                    fontFamily: 'OpenSans',
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black,
+                          child: Column(
+                            children: [
+
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              const Text(
+                                "Experience",
+                                style: TextStyle(
+                                  fontFamily: 'OpenSans',
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+
+                              Expanded(
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    children: [
+
+                                      form0(formGlobalKey2),
+
+                                      SizedBox(height: 20,),
+                                      OutlinedButton(
+                                        onPressed: () {
+                                          tabIndex[2].isComplete = true;
+                                        },
+                                        child: Text("Make Tab 2 complete"),
+                                      ),
+                                      SizedBox(height: 40,),
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          if(tabIndex[2].isComplete) {
+                                            tabIndex[3].isDisabled = false;
+                                            tabController.animateTo(3);
+                                          }
+                                        },
+                                        child: const Text("Tab 2 to Tab 3"),
+                                      ),
+
+                                    ],
                                   ),
                                 ),
 
-                                form1(formGlobalKey2),
+                              ),
 
-                                SizedBox(height: 20,),
-                                OutlinedButton(
-                                  onPressed: () {
-                                    tabIndex[2].isComplete = true;
-                                  },
-                                  child: Text("Make Tab 2 complete"),
-                                ),
-                                SizedBox(height: 40,),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    if(tabIndex[2].isComplete) {
-                                      tabIndex[3].isDisabled = false;
-                                      tabController.animateTo(3);
-                                    }
-                                  },
-                                  child: const Text("Tab 2 to Tab 3"),
-                                ),
 
-                              ],
-                            ),
+                            ],
                           ),
                         ),
 
@@ -739,43 +1233,59 @@ class _ConsultantRegistrationScreenState extends State<ConsultantRegistrationScr
                         // Tab 3 Container
                         Container(
                           // color: Colors.grey,
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                const SizedBox(height: 7,),
-                                const Text(
-                                  "Availability",
-                                  style: TextStyle(
-                                    fontFamily: 'OpenSans',
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black,
+                          child: Column(
+                            children: [
+
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              const Text(
+                                "Availability and Consultation Fee",
+                                style: TextStyle(
+                                  fontFamily: 'OpenSans',
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+
+                              Expanded(
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    children: [
+
+                                      form0(formGlobalKey3),
+
+                                      SizedBox(height: 20,),
+                                      OutlinedButton(
+                                        onPressed: () {
+                                          tabIndex[3].isComplete = true;
+                                        },
+                                        child: Text("Make Tab 3 complete"),
+                                      ),
+                                      SizedBox(height: 40,),
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          if(tabIndex[3].isComplete) {
+                                            print("Complete");
+                                          } else {
+                                            print("Not Complete");
+                                          }
+                                        },
+                                        child: const Text("Tab 3 to Tab 3"),
+                                      ),
+
+                                    ],
                                   ),
                                 ),
 
-                                form1(formGlobalKey3),
+                              ),
 
-                                SizedBox(height: 20,),
-                                OutlinedButton(
-                                  onPressed: () {
-                                    tabIndex[3].isComplete = true;
-                                  },
-                                  child: Text("Make Tab 3 complete"),
-                                ),
-                                SizedBox(height: 40,),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    if(tabIndex[3].isComplete) {
-                                      print("Complete");
-                                    } else {
-                                      print("Not Complete");
-                                    }
-                                  },
-                                  child: const Text("Tab 3 to Tab 3"),
-                                ),
 
-                              ],
-                            ),
+                            ],
                           ),
                         ),
 
@@ -956,6 +1466,8 @@ class _CustomRadioButtonsState extends State<CustomRadioButtons> {
       ],
     );
   }
+
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -1236,3 +1748,4 @@ Container(
   ),
 ),
 */
+
